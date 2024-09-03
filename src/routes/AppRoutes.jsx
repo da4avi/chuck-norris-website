@@ -3,7 +3,6 @@ import Home from "../pages/Home/index"
 import AboutChuckNorris from "../pages/AboutChuckNorris/index"
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AboutTheChuckNorris from "../pages/AboutTheChuckNorris";
 import AboutTheCreators from "../pages/AboutTheCreators";
 import Jokes from "../pages/Jokes";
 import Register from "../pages/Register";
