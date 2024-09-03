@@ -15,7 +15,7 @@ export default function AppRoutes() {
                 <Header />
                 <Routes>
                     <Route path='/' element={<Home />} />
-                    <Route path='/aboutthechucknorris' element={<AboutChuckNorris />} />
+                    <Route path='/aboutchucknorris' element={<AboutChuckNorris />} />
                     <Route path='/jokes' element={<Jokes />} />
                     <Route path='/aboutthecreators' element={<AboutTheCreators />} />
                     <Route path='/login' element={<Login />} />

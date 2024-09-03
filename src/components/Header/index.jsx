@@ -44,7 +44,7 @@ function Nav() {
                 <ul className={`navLinksGroup ${isActive ? "navActive" : ""}`}>
                     <li onClick={removeActive} className="navLink"><Link to="/">Home</Link></li>
                     <li onClick={removeActive} className="navLink"><Link to="/jokes">Jokes</Link></li>
-                    <li onClick={removeActive} className="navLink"><Link to="/aboutthechucknorris">About Chuck Norris</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/aboutchucknorris">About Chuck Norris</Link></li>
                     <li onClick={removeActive} className="navLink"><Link to="/aboutthecreators">About the creators</Link></li>
                     <li onClick={removeActive} className="navLink"><Link to="/login">Login</Link></li>
                 </ul>
