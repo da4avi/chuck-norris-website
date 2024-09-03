@@ -3,16 +3,23 @@ import Home from "../pages/Home/index"
 import About from "../pages/About/index"
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import AboutTheCreators from "../pages/AboutTheCreators";
+import Jokes from "../pages/Jokes";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 
 export default function AppRoutes() {
     return (
         <>
             <BrowserRouter>
                 <Header />
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/about' element={<About />} />
-                    </Routes>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/jokes' element={<Jokes />} />
+                    <Route path='/aboutthecreators' element={<AboutTheCreators />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/register' element={<Register />} />
+                </Routes>
                 <Footer />
             </BrowserRouter>
         </>

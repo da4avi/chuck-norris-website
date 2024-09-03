@@ -2,4 +2,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Lato", sans-serif;
+}
+
+:root {
+  --primary-color: #161212;
+  --secondary-color: #3b2020;
+  --hover-color: #9b8787;
+  --light-font-color: #f5f5f5;
+  --dark-font-color: #141414;
 }

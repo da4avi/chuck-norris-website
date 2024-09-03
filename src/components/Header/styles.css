@@ -1,22 +1,112 @@
-.header {
-    background-color: #332828;
-    color: white;
+.nav {
+    background-color: var(--primary-color);
+    color: var(--white);
     display: flex;
     align-items: center;
-    padding: 20px 20px 25px 20px;
-    gap: 30px;
+    justify-content: space-evenly;
+    height: 80px;
+    align-items: center;
+    font-weight: 250;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
 }
 
-.nav {
+.navLinksGroup {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 37%;
     gap: 20px;
-}
-
-.nav a {
-    text-decoration: none;
-}
-
-.nav a li{
     list-style: none;
-    color: white;
+}
+
+.navLink a {
+    font-weight: 400;
+    outline: none;
+    text-decoration: none;
+    color: var(--light-font-color);
+    transition: color ease-in-out .4s;
+}
+
+.navLink a:hover {
+    color: rgb(204, 204, 204);
+}
+
+.navLink a:focus {
+    color: rgb(177, 177, 177);
+}
+
+@media (max-width: 768px) {
+
+    /* navMenu */
+    .navLinksGroup {
+        z-index: 1;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 50px;
+        left: -100%;
+        top: 0;
+        text-align: start;
+        height: 100vh;
+        width: 60%;
+        transition: 0.4s ease-in-out;
+        background-color: var(--primary-color);
+    }
+
+    .navLinksGroup.navActive {
+        left: 0;
+    }
+
+    .imgBox {
+        margin: 70px 0;
+    }
+
+    /* hamburger */
+    .hamburger {
+        display: block;
+        cursor: pointer;
+    }
+
+    .line {
+        background-color: var(--light-font-color);
+        width: 20px;
+        border-radius: 0;
+        height: 3px;
+        display: block;
+        margin: 5px;
+        -webkit-transition: 0.3s ease-in-out;
+        transition: 0.3s ease-in-out;
+    }
+
+    /* adding navActive class to the lines  */
+    .hamburger.navActive .line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.navActive .line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.navActive .line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlayActive {
+    opacity: 1;
+    visibility: visible;
 }
