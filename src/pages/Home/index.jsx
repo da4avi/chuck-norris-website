@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react'
 
 export default function Home() {
-    const [joke, setJoke] = useState()
+    const [joke, setJoke] = useState(<>Loading...</>)
 
     async function getRandomJoke() {
         const requestOptions = {
@@ -26,7 +26,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (!joke) {
+        if (!joke || joke != "Loading...") {
             getRandomJoke()
         }
     }, [])
@@ -40,6 +40,7 @@ export default function Home() {
             <h2>Random Joke</h2>
             <p>{joke}</p>
             <button onClick={() => getRandomJoke()} type="button">New Joke</button>
+            <li><Link to="/jokes">More Jokes</Link></li>
         </>
     )
 }
