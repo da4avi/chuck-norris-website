@@ -20,7 +20,7 @@ export default function Login () {
             </div>
         </form>
         <li>
-            <Link to="/">Sign In</Link>
+            <Link to="/register">Sign In</Link>
         </li>
         </>
     )
