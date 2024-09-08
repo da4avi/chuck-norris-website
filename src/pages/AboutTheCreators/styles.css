@@ -6,6 +6,7 @@
     flex-direction: column;
     height: 80vh;
     flex-wrap: wrap;
+    background-color: rgb(95, 92, 90);
 }
 
 .creators-container h1 {
@@ -33,6 +34,7 @@
         height: 150px;
         width: 150px;
         border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     & h3 {

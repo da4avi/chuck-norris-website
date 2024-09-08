@@ -1,3 +1,39 @@
+.about {
+    background-color: rgb(95, 92, 90);
+}
+
 .pics {
     height: 400px;
+}
+
+.texto {
+    background-color: #fff;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 16px;
+    margin-left: 400px;
+}
+.imagem {
+    background-color: #fff;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 16px;
+    margin-right: 400px;
+}
+
+.div {
+    display: flex;
+}
+
+.p {
+    line-height: 1.8;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+
+.h1 {
+    text-align: center;
+    padding-top: 10px;
 }
