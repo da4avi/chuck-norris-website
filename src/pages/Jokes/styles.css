@@ -6,18 +6,40 @@
     flex-direction: column;
 }
 
+.jokes-section h2 {
+    margin-bottom: 30px;
+}
+
 .activeDropdown {
     background-color: rgb(233, 233, 233);
     z-index: 1;
     border: 0;
 }
 
+.dropdown button {
+    margin-top: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background-color: #000000;
+    transition: color ease-in-out .3s;
+
+    &:hover {
+        color: #c6c6c6;
+    }
+}
+
 .dropdownLinks {
     padding: 15px;
-    gap: 4px;
+    gap: 6px;
+    margin-top: 4px;
     border-radius: 5px;
-    background-color: #e0e0e0;
+    background-color: #000000;
     display: flex;
+    color: white;
     flex-direction: column;
     position: absolute;
     opacity: 0;
@@ -25,6 +47,15 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
     list-style: none;
     text-transform: capitalize;
+}
+
+.dropdownLinks li {
+    transition: color ease-in-out .3s;
+    cursor: pointer;
+
+    &:hover {
+        color: #c6c6c6;
+    }
 }
 
 .dropdownLinks.activeDropdown {
@@ -35,4 +66,30 @@
 .dropdownLinks.inactiveDropdown {
     opacity: 0;
     visibility: hidden;
+}
+
+.img-loading {
+    animation: shake 0.25s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(5deg);
+    }
+
+    50% {
+        transform: rotate(0eg);
+    }
+
+    75% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }

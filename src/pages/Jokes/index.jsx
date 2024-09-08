@@ -1,5 +1,6 @@
 import './styles.css';
 import { useState, useEffect, useRef } from 'react';
+import icon from '../../assets/chuckNorrisIcon.webp'
 
 export default function Jokes() {
     const [joke, setJoke] = useState();
@@ -13,10 +14,11 @@ export default function Jokes() {
     };
 
     const categories = [
-        "animal", "career", "celebrity", "dev", "explicit", "fashion",
-        "food", "history", "money", "movie", "music", "political",
-        "religion", "science", "sport", "travel"
+        "animal", "career", "celebrity", "dev", "fashion",
+        "food", "history", "money", "movie", "music",
+        , "science", "sport", "travel"
     ];
+    //bad jokes: "religion", "explicit", "political"
 
     const getJokeByCategory = async (category) => {
         setLoading(true)
@@ -54,8 +56,14 @@ export default function Jokes() {
     return (
         <section className='jokes-section'>
             <h2>Select a category to get a random joke</h2>
+
+            <div className='joke'>
+                {loading && <img className='img-loading' src={icon} height={40} width={40} />}
+                {joke && !loading ? joke : loading || "Select a category to see a joke"}
+            </div>
+
             <div className="dropdown" ref={dropdownRef}>
-                <button onMouseEnter={toggleDropdown} onClick={toggleDropdown} className="navLink">
+                <button onMouseEnter={toggleDropdown} onClick={toggleDropdown}>
                     Categories
                 </button>
                 <ul className={`dropdownLinks ${dropdown ? "activeDropdown" : "inactiveDropdown"}`}>
@@ -66,10 +74,7 @@ export default function Jokes() {
                     ))}
                 </ul>
             </div>
-            <div className='joke'>
-                {loading && <p>Loading new joke</p>}
-                {joke && !loading ? joke : loading || "Select a category to see a joke"}
-            </div>
+
         </section>
     );
 }
