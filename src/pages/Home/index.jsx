@@ -34,7 +34,7 @@ export default function Home() {
     return (
         <>
             <div className='home'>
-                    <div className='flex'>
+                <div className='flex'>
                     <section className='textoHome'>
                         <h2>Who was</h2>
                         <br />

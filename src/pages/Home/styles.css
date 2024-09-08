@@ -3,13 +3,17 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 80vh;
+    min-height: 80vh;
     flex-wrap: wrap;
     background-color: rgb(95, 92, 90);
 }
 
 .flex {
     display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 16px;
 }
 
 .textoHome {
@@ -17,9 +21,7 @@
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    margin: 16px;
-    margin-left: 300px;
-
+    max-width: 800px;
 }
 
 .jokeHome {
@@ -27,11 +29,8 @@
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    margin: 16px;
-    margin-right: 300px;
-    max-width: 320px;
+    width: 320px;
     min-height: 370px;
-    min-width: 320px;
 }
 
 .button {
