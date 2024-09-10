@@ -10,7 +10,7 @@
 }
 
 .creators-container h1 {
-    margin-bottom: 80px;
+    margin-bottom: 16px;
 }
 
 .creators {
@@ -19,6 +19,10 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 60px;
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
 .creator {
