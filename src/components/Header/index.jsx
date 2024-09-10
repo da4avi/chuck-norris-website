@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './styles.css';
 import { useState, useRef, useEffect } from 'react';
+import chuckNorrisIcon from "../../assets/chuckNorrisIcon.webp"
 
 function Nav() {
     const [isActive, setIsActive] = useState(false);
@@ -39,7 +40,7 @@ function Nav() {
             ></div>
             <nav ref={navRef} className="nav">
                 <figure className="imgBox">
-                    <img src="#" alt="Who was Chuck Norris" width={80} height="auto" />
+                    <img className='chuck-norris-icon' src={chuckNorrisIcon} alt="Who was Chuck Norris" width={49} height="auto" />
                 </figure>
                 <ul className={`navLinksGroup ${isActive ? "navActive" : ""}`}>
                     <li onClick={removeActive} className="navLink"><Link to="/">Home</Link></li>

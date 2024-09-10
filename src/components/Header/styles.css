@@ -110,3 +110,7 @@
     opacity: 1;
     visibility: visible;
 }
+
+.chuck-norris-icon {
+    filter: drop-shadow(0 0 10px rgba(212, 212, 212, 0.5));
+}
