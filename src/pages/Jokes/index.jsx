@@ -54,6 +54,7 @@ export default function Jokes() {
     }, [dropdown]);
 
     return (
+        <div className='bg'>
         <section className='jokes-section'>
             <h2>Select a category to get a random joke</h2>
 
@@ -76,5 +77,6 @@ export default function Jokes() {
             </div>
 
         </section>
+        </div>
     );
 }
