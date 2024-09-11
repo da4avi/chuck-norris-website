@@ -1,20 +1,62 @@
-import { Link } from 'react-router-dom'
-import "./styles.css"
+import { Link } from 'react-router-dom';
+import './styles.css';
+import { useState, useRef, useEffect } from 'react';
+import chuckNorrisIcon from "../../assets/chuckNorrisIcon.webp"
 
-export default function Header() {
+function Nav() {
+    const [isActive, setIsActive] = useState(false);
+    const navRef = useRef(null);
+
+    const toggleActiveClass = () => {
+        setIsActive(!isActive);
+    };
+
+    const removeActive = () => {
+        setIsActive(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (navRef.current && !navRef.current.contains(event.target)) {
+            setIsActive(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+
+        document.body.style.overflow = isActive ? 'hidden' : 'auto';
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.body.style.overflow = 'auto';
+        };
+    }, [isActive]);
+
     return (
         <>
-            <header className='header'>
-                <h1>who was <br /> chuck norris</h1>
-                <ul className='nav'>
-                    <Link to="/">
-                        <li>Home</li>
-                    </Link>
-                    <Link to="/about">
-                        <li>About</li>
-                    </Link>
+            <div
+                className={`overlay ${isActive ? "overlayActive" : ''}`}
+                onClick={removeActive}
+            ></div>
+            <nav ref={navRef} className="nav">
+                <figure className="imgBox">
+                    <img className='chuck-norris-icon' src={chuckNorrisIcon} alt="Who was Chuck Norris" width={49} height="auto" />
+                </figure>
+                <ul className={`navLinksGroup ${isActive ? "navActive" : ""}`}>
+                    <li onClick={removeActive} className="navLink"><Link to="/">Home</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/jokes">Jokes</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/aboutchucknorris">About Chuck Norris</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/aboutthecreators">About the creators</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/login">Login</Link></li>
                 </ul>
-            </header>
+                <div className={`hamburger ${isActive ? "navActive" : ""}`} onClick={toggleActiveClass}>
+                    <span className="line"></span>
+                    <span className="line"></span>
+                    <span className="line"></span>
+                </div>
+            </nav>
         </>
-    )
+    );
 }
+
+export default Nav;
