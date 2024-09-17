@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend de uma app web",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "test": "jest --coverage"
+  },
+  "author": "Davi Finkler, Matheus M. Viana",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
