@@ -1,45 +1,59 @@
-const UserController = require("../controller/user")
+const UserController = require('../controller/user')
 
 class UserApi {
+    async createUser(req, res) {
+        const { name, email, password } = req.body
 
-    findUser(req, res) {
         try {
-            const users = UserController.findAll()
-
-            res.send({ users })
+            const user = await UserController.create(name, email, password)
+            return res.status(201).send(user)
         } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
+            return res.status(400).send({ error: `Error creating user: ${e.message}` })
         }
     }
 
-    createUser(req, res) {
+    async updateUser(req, res) {
+        const { id } = req.params
+        const { name, email, password } = req.body
+
         try {
-            throw new Error("deu ruim aqui :/")
-            res.send('post')
+            const user = await UserController.update(Number(id), name, email, password)
+            return res.status(200).send(user)
         } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
+            return res.status(400).send({ error: `Error updating user: ${e.message}` })
         }
     }
 
-    updateUser(req, res) {
+    async deleteUser(req, res) {
+        const { id } = req.params
+
         try {
-            res.send('put')
+            await UserController.delete(Number(id))
+            return res.status(204).send()
         } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
+            return res.status(400).send({ error: `Error deleting user: ${e.message}` })
         }
     }
 
-    deleteUser(req, res) {
+    async findUsers(req, res) {
         try {
-            res.send('delete')
+            const users = await UserController.find()
+            return res.status(200).send(users)
         } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
+            return res.status(400).send({ error: `Error listing users: ${e.message}` })
+        }
+    }
+
+    async login(req, res) {
+        const { email, password } = req.body
+
+        try {
+            const token = await UserController.login(email, password)
+            return res.status(200).send({ token })
+        } catch (e) {
+            return res.status(400).send({ error: `Error logging: ${e.message}` })
         }
     }
 }
 
-module.exports = new UserApi();
+module.exports = new UserApi()
