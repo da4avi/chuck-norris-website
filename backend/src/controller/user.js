@@ -6,7 +6,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const SALT_VALUE = 10;
 
 class UserController {
-  async create(name, email, password) {
+  async create(name, email, password, role) {
     if (!name || !email || !password) {
       throw new Error("Name, email, and password are required");
     }
@@ -18,6 +18,7 @@ class UserController {
         name,
         email,
         password: cypherpassword,
+        role,
       });
 
       return userValue;
