@@ -1,11 +1,13 @@
-const express = require ('express');
-const UserApi = require ('../api/user');
+const express = require("express");
+const router = express.Router();
+const UserApi = require("../api/user");
+const authMiddleware = require("../middleware/auth");
 
-const userRouter = express.Router();
+router.get("/", authMiddleware, UserApi.findUsers);
+router.put("/:id", authMiddleware, UserApi.updateUser);
+router.delete("/:id", authMiddleware, UserApi.deleteUser);
 
-userRouter.get('/', UserApi.findUser);
-userRouter.post('/', UserApi.createUser);
-userRouter.put('/:id', UserApi.findUser);
-userRouter.delete('/:id', UserApi.deleteUser);
+router.post("/", UserApi.createUser);
+router.post("/login", UserApi.login);
 
-module.exports = userRouter;
+module.exports = router;
