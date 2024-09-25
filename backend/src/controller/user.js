@@ -2,7 +2,7 @@ const user = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "development";
 const SALT_VALUE = 10;
 
 class UserController {
