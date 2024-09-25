@@ -13,6 +13,7 @@ class UserApi {
         .send({ error: `Error creating user: ${e.message}` });
     }
   }
+
   async createAdmin(req, res) {
     const { name, email, password } = req.body;
     const role = "admin";
@@ -27,7 +28,7 @@ class UserApi {
   }
 
   async updateUser(req, res) {
-    const { id } = req.params;
+    const { id } = req.user.id || req.params;
     const { name, email, password } = req.body;
 
     try {
@@ -46,9 +47,8 @@ class UserApi {
   }
 
   async deleteUser(req, res) {
-
     try {
-      const id = req.params.id || req.user.id
+      const id = req.params.id || req.user.id;
 
       await UserController.delete(Number(id));
       return res.status(204).send();
@@ -67,6 +67,16 @@ class UserApi {
       return res
         .status(400)
         .send({ error: `Error listing users: ${e.message}` });
+    }
+  }
+
+  async findUserById(req, res) {
+    const id = req.user.id || req.params;
+    try {
+      const user = await UserController.findUser(id);
+      return res.status(200).send(user);
+    } catch (e) {
+      return res.status(400).send({ error: `Error to get user: ${e.message}` });
     }
   }
 
