@@ -23,6 +23,7 @@ function authMiddleware(roles = []) {
       }
 
       req.user = decoded;
+      console.log(req.user.id)
       next();
     } catch (err) {
       return res.status(401).send({ error: "Invalid token." });
