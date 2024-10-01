@@ -1,32 +1,24 @@
 const database = require("../config/database");
 
-class UserModel {
+class CategoryModel {
   constructor() {
-    this.model = database.db.define("users", {
+    this.model = database.db.define("categories", {
       id: {
         type: database.db.Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      value: {
         type: database.db.Sequelize.STRING,
         allowNull: false,
       },
-      email: {
+      description: {
         type: database.db.Sequelize.STRING,
         allowNull: false,
         unique: true,
-      },
-      password: {
-        type: database.db.Sequelize.STRING,
-        allowNull: false,
-      },
-      role: {
-        type: database.db.Sequelize.ENUM("admin", "viewer"),
-        allowNull: false,
       },
     });
   }
 }
 
-module.exports = new UserModel().model;
+module.exports = new CategoryModel().model;

@@ -1,11 +1,13 @@
 const express = require("express");
 const userRouter = require("./src/routes/user");
+const jokeRouter = require("./src/routes/joke");
 const database = require("./src/config/database");
 const app = express();
 
 app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/joke", jokeRouter);
 
 database.db
   .sync({ force: false })
