@@ -2,10 +2,12 @@ const JokeController = require("../controller/joke");
 
 class JokeApi {
   async createJoke(req, res) {
-    const { category, strJoke } = req.body;
+    const { category, strValue } = req.body;
+    const lowercaseCategory = category.toLowerCase();
+    const { id } = req.user;
 
     try {
-      const joke = await JokeController.create(category, strJoke);
+      const joke = await JokeController.create(lowercaseCategory, strValue, id);
       return res.status(201).send(joke);
     } catch (e) {
       return res

@@ -17,13 +17,12 @@ class JokeModel {
         type: database.db.Sequelize.STRING,
         allowNull: true,
       },
-      category: {
-        type: database.db.Sequelize.STRING,
+      categoryId: {
+        type: database.db.Sequelize.INTEGER,
         references: {
           model: "categories",
-          key: "value",
+          key: "id",
         },
-        allowNull: false,
       },
       userId: {
         type: database.db.Sequelize.INTEGER,

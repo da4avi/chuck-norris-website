@@ -9,13 +9,28 @@ class CategoryModel {
         primaryKey: true,
       },
       value: {
-        type: database.db.Sequelize.STRING,
+        type: database.db.Sequelize.ENUM(
+          "animal",
+          "career",
+          "celebrity",
+          "dev",
+          "fashion",
+          "food",
+          "history",
+          "money",
+          "movie",
+          "music",
+          "political",
+          "religion",
+          "science",
+          "sport",
+          "travel"
+        ),
         allowNull: false,
       },
       description: {
         type: database.db.Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
     });
   }

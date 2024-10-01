@@ -1,10 +1,11 @@
 const joke = require("../model/joke");
 const categoryModel = require("../model/category");
+const { insertCategoriesIfNotExist } = require("../seeders/InsertCategories");
 
 class JokeController {
-  async create(category, strJoke) {
-    if (!category || !strJoke) {
-      throw new Error("Category, strJoke are required");
+  async create(category, value, userId) {
+    if (!category || !value) {
+      throw new Error("Category, value are required");
     }
 
     const categoryValue = await categoryModel.findOne({
@@ -12,13 +13,14 @@ class JokeController {
     });
 
     if (!categoryValue) {
-      throw new Error("Category not found");
+      await insertCategoriesIfNotExist();
     }
+
     try {
       const userJoke = await joke.create({
         value,
         category,
-        userId: req.user.id,
+        userId,
       });
 
       return userJoke;
@@ -29,7 +31,6 @@ class JokeController {
       throw new Error(error.message || "Error creating joke");
     }
   }
-
   async findJoke(id) {
     if (!id) {
       throw new Error("Id is required");
