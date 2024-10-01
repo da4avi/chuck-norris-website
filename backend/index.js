@@ -2,6 +2,9 @@ const express = require("express");
 const userRouter = require("./src/routes/user");
 const jokeRouter = require("./src/routes/joke");
 const database = require("./src/config/database");
+const {
+  insertCategoriesIfNotExist,
+} = require("./src/seeders/InsertCategories");
 const app = express();
 
 app.use(express.json());
@@ -18,4 +21,7 @@ database.db
   })
   .catch((e) => {
     console.error(`Error: ${e}`);
+  })
+  .finally(() => {
+    insertCategoriesIfNotExist();
   });

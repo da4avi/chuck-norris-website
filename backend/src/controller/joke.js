@@ -1,6 +1,5 @@
 const joke = require("../model/joke");
 const categoryModel = require("../model/category");
-const { insertCategoriesIfNotExist } = require("../seeders/InsertCategories");
 
 class JokeController {
   async create(category, value, userId) {
@@ -13,7 +12,7 @@ class JokeController {
     });
 
     if (!categoryValue) {
-      await insertCategoriesIfNotExist();
+      throw new Error("This category doesn't exists.");
     }
 
     try {
