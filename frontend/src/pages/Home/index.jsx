@@ -2,9 +2,15 @@ import { Link } from 'react-router-dom'
 import './styles.css'
 import { useEffect } from 'react';
 import { useState } from 'react'
+import translate from "translate";
+translate.engine = "google";
+import { useTranslation } from 'react-i18next'
 
 export default function Home() {
+    const [t, i18n] = useTranslation("global")
+
     const [joke, setJoke] = useState(<>Loading...</>)
+    const [jokeTranslated, setJokeTranslated] = useState(<>Loading...</>)
 
     async function getRandomJoke() {
         const requestOptions = {
@@ -20,31 +26,32 @@ export default function Home() {
 
         const data = await response.json();
 
-        console.log(response)
-
-        return setJoke(data.value)
+        const translated = await translate(data.value, "pt");
+        return setJoke(data.value), setJokeTranslated(translated)
     }
 
     useEffect(() => {
         if (!joke || joke != "Loading...") {
             getRandomJoke()
         }
+        console.log(i18n)
     }, [])
+
 
     return (
 
         <div className='home' >
             <section className='texto'>
-                <h2>Who was</h2>
+                <h2>{t('title')}</h2>
                 <br />
-                <p className='p'>Chuck Norris is a martial artist, actor, and cultural icon, famous for his tough-guy image and legendary roundhouse kick. Rising to fame in the 1970s with movies like Way of the Dragon, he later became a TV star in Walker, Texas Ranger. Beyond acting, Norris has founded martial arts organizations and programs like Kickstart Kids, impacting thousands of lives. He’s also a pop culture legend thanks to the humorous "Chuck Norris Facts."</p>
+                <p className='p'>{t('home')}</p>
                 <br />
-                <li><Link to="/aboutchucknorris">Read More</Link></li>
+                <li><Link to="/aboutchucknorris">{t('readmore')}</Link></li>
             </section>
             <section className='joke'>
                 <h2>Random joke</h2>
                 <br />
-                <p className='p'>{joke}</p>
+                <p className='p'>{i18n.language === "en" ? joke : jokeTranslated}</p>
                 <br />
                 <button onClick={() => getRandomJoke()} type="button">New Joke</button>
                 <br />

@@ -2,10 +2,17 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import { useState, useRef, useEffect } from 'react';
 import chuckNorrisIcon from "../../assets/chuckNorrisIcon.webp"
+import { useTranslation } from 'react-i18next'
 
 function Nav() {
     const [isActive, setIsActive] = useState(false);
     const navRef = useRef(null);
+    
+    const [t, i18n] = useTranslation("global")
+
+    const changeLang = (lang) => {
+        i18n.changeLanguage(lang)
+    }
 
     const toggleActiveClass = () => {
         setIsActive(!isActive);
@@ -47,7 +54,8 @@ function Nav() {
                     <li onClick={removeActive} className="navLink"><Link to="/jokes">Jokes</Link></li>
                     <li onClick={removeActive} className="navLink"><Link to="/aboutchucknorris">About Chuck Norris</Link></li>
                     <li onClick={removeActive} className="navLink"><Link to="/aboutthecreators">About the creators</Link></li>
-                    <li onClick={removeActive} className="navLink"><Link to="/login">Login</Link></li>
+                    <li><button onClick={ () => changeLang("en") } className='m-2'>en</button></li>
+                    <li><button onClick={ () => changeLang("pt") } className='m-2'>pt</button></li>  
                 </ul>
                 <div className={`hamburger ${isActive ? "navActive" : ""}`} onClick={toggleActiveClass}>
                     <span className="line"></span>
