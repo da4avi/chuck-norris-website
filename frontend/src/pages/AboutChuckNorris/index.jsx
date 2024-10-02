@@ -4,6 +4,8 @@ import moviePic from '../../../public/wayofthedragon.jpg'
 import ufmaPic from '../../../public/ufma.jpg'
 import memePic from '../../../public/joke.jpeg'
 
+
+
 export default function About() {
     return (
         <div className='about'>
