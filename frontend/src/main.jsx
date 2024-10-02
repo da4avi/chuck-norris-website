@@ -10,12 +10,14 @@ import global_pt from './components/Locales/pt/global.json'
 
 i18next.init({
     interpolation: { escapeValue: false },
-    lng: "pt",
-    en: {
-        global_en
-    },
-    pt: {
-        global_pt
+    lng: "en",
+    resources: {
+        en: {
+           global: global_en
+        },
+        pt: {
+            global: global_pt
+        }
     }
 })
 

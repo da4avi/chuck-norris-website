@@ -7,13 +7,10 @@ translate.engine = "google";
 import { useTranslation } from 'react-i18next'
 
 export default function Home() {
-    const [t, i18n] = useTranslation("global.json")
-
-    const changeLang = (lang) => {
-        i18n.changeLanguage(lang)
-    }
+    const [t, i18n] = useTranslation("global")
 
     const [joke, setJoke] = useState(<>Loading...</>)
+    const [jokeTranslated, setJokeTranslated] = useState(<>Loading...</>)
 
     async function getRandomJoke() {
         const requestOptions = {
@@ -30,8 +27,7 @@ export default function Home() {
         const data = await response.json();
 
         const translated = await translate(data.value, "pt");
-
-        return setJoke(translated)
+        return setJoke(data.value), setJokeTranslated(translated)
     }
 
     useEffect(() => {
@@ -41,23 +37,21 @@ export default function Home() {
         console.log(i18n)
     }, [])
 
-    
+
     return (
 
         <div className='home' >
             <section className='texto'>
-                <h2>Who was</h2>
+                <h2>{t('title')}</h2>
                 <br />
-                <button onClick={ () => changeLang("en") } className='m-2'>en</button>
-                <button onClick={ () => changeLang("pt") } className='m-2'>pt</button>
-                <p className='p'>{t("home")}</p>
+                <p className='p'>{t('home')}</p>
                 <br />
-                <li><Link to="/aboutchucknorris">Read More</Link></li>
+                <li><Link to="/aboutchucknorris">{t('readmore')}</Link></li>
             </section>
             <section className='joke'>
                 <h2>Random joke</h2>
                 <br />
-                <p className='p'>{joke}</p>
+                <p className='p'>{i18n.language === "en" ? joke : jokeTranslated}</p>
                 <br />
                 <button onClick={() => getRandomJoke()} type="button">New Joke</button>
                 <br />
