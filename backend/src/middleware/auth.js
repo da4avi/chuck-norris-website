@@ -18,12 +18,12 @@ function authMiddleware(roles = []) {
       if (!userLogged) {
         return res.status(500).json("User not found.");
       }
+
       if (roles.length && !roles.includes(userLogged.role)) {
         return res.status(500).json("User without permission.");
       }
 
       req.user = decoded;
-      console.log(req.user.id)
       next();
     } catch (err) {
       return res.status(401).send({ error: "Invalid token." });

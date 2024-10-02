@@ -22,7 +22,7 @@ class UserModel {
         allowNull: false,
       },
       role: {
-        type: database.db.Sequelize.ENUM('admin', 'viewer'),
+        type: database.db.Sequelize.ENUM("admin", "viewer"),
         allowNull: false,
       },
     });

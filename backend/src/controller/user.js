@@ -80,12 +80,12 @@ class UserController {
     const userValue = await user.findOne({ where: { email } });
 
     if (!userValue) {
-      throw new Error("Invalid username or password");
+      throw new Error("Invalid email or password");
     }
 
     const validPassword = await bcrypt.compare(password, userValue.password);
     if (!validPassword) {
-      throw new Error("Invalid username or password");
+      throw new Error("Invalid email or password");
     }
 
     return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: "1h" });

@@ -28,16 +28,11 @@ class UserApi {
   }
 
   async updateUser(req, res) {
-    const { id } = req.user.id || req.params;
+    const { id } = req.user || req.params;
     const { name, email, password } = req.body;
 
     try {
-      const user = await UserController.update(
-        Number(id),
-        name,
-        email,
-        password
-      );
+      const user = await UserController.update(id, name, email, password);
       return res.status(200).send(user);
     } catch (e) {
       return res
