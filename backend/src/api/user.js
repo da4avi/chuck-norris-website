@@ -28,7 +28,7 @@ class UserApi {
   }
 
   async updateUser(req, res) {
-    const { id } = req.user || req.params;
+    const { id } = req.params || req.user;
     const { name, email, password } = req.body;
 
     try {
@@ -54,6 +54,19 @@ class UserApi {
     }
   }
 
+  async blockUser(req, res) {
+    try {
+      const { id } = req.params;
+
+      await UserController.block(Number(id));
+      return res.status(204).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error deleting user: ${e.message}` });
+    }
+  }
+
   async findUsers(req, res) {
     try {
       const users = await UserController.find();
@@ -66,9 +79,10 @@ class UserApi {
   }
 
   async findUserById(req, res) {
-    const id = req.user.id || req.params;
+    const { id } = req.params || req.user;
+
     try {
-      const user = await UserController.findUser(id);
+      const user = await UserController.findUser(id || req.user.id);
       return res.status(200).send(user);
     } catch (e) {
       return res.status(400).send({ error: `Error to get user: ${e.message}` });

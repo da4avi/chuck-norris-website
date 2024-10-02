@@ -51,9 +51,32 @@ class UserController {
 
     const userValue = await this.findUser(id);
 
+    if (!userValue) {
+      throw new Error("Internal server error.");
+    }
+
+    const cypherpassword = await bcrypt.hash(password, SALT_VALUE);
     userValue.name = name;
     userValue.email = email;
-    userValue.password = await bcrypt.hash(password, SALT_VALUE);
+    userValue.password = cypherpassword;
+    await userValue.save();
+
+    return userValue;
+  }
+
+  async block(id) {
+    if (!id) {
+      throw new Error("Id is required");
+    }
+
+    const userValue = await this.findUser(id);
+
+    if (!userValue) {
+      throw new Error("User not found.");
+    }
+
+    userValue.role = "blocked";
+
     await userValue.save();
 
     return userValue;
