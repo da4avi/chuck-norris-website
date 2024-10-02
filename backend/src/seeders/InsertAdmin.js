@@ -9,14 +9,28 @@ const admin = {
 };
 
 async function insertAdminIfNotExist() {
-  const cypherpassword = await bcrypt.hash(admin.password, 10);
+  try {
+    const existsAdmin = userModel.findOne({
+      where: {
+        email: admin.email,
+      },
+    });
 
-  await userModel.create({
-    name: admin.name,
-    email: admin.email,
-    password: cypherpassword,
-    role: admin.role,
-  });
+    if (!existsAdmin) {
+      return console.log("Admin already exists.");
+    }
+
+    const cypherpassword = await bcrypt.hash(admin.password, 10);
+
+    await userModel.create({
+      name: admin.name,
+      email: admin.email,
+      password: cypherpassword,
+      role: admin.role,
+    });
+  } catch (err) {
+    return console.error(`Erro to create admin: ${err.message}`);
+  }
 }
 
 module.exports = {

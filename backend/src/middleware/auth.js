@@ -24,6 +24,11 @@ function authMiddleware(roles = []) {
       }
 
       req.user = decoded;
+
+      if (userLogged.role === "blocked") {
+        return res.status(500).json("User blocked.");
+      }
+
       next();
     } catch (err) {
       return res.status(401).send({ error: "Invalid token." });
