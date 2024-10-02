@@ -10,14 +10,15 @@ const admin = {
 
 async function insertAdminIfNotExist() {
   try {
-    const existsAdmin = userModel.findOne({
+    const existsAdmin = await userModel.findOne({
       where: {
         email: admin.email,
       },
     });
 
-    if (!existsAdmin) {
-      return console.log("Admin already exists.");
+    if (existsAdmin) {
+      console.log("Admin already exists.");
+      return;
     }
 
     const cypherpassword = await bcrypt.hash(admin.password, 10);
@@ -28,8 +29,10 @@ async function insertAdminIfNotExist() {
       password: cypherpassword,
       role: admin.role,
     });
+
+    console.log("Admin created successfully.");
   } catch (err) {
-    return console.error(`Erro to create admin: ${err.message}`);
+    console.error(`Error creating admin: ${err.message}`);
   }
 }
 
