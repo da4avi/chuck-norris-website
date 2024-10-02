@@ -7,7 +7,7 @@ class JokeApi {
     const { id } = req.user;
 
     try {
-      const joke = await JokeController.create(lowercaseCategory, strValue, id);
+      const joke = await JokeController.create(strValue, lowercaseCategory, id);
       return res.status(201).send(joke);
     } catch (e) {
       return res
@@ -18,10 +18,10 @@ class JokeApi {
 
   async updateJoke(req, res) {
     const { id } = req.params;
-    const { strJoke, category } = req.body;
+    const { category, strValue } = req.body;
 
     try {
-      const joke = await JokeController.update(id, strJoke, category);
+      const joke = await JokeController.update(id, category, strValue);
       return res.status(200).send(joke);
     } catch (e) {
       return res
@@ -32,7 +32,7 @@ class JokeApi {
 
   async deleteJoke(req, res) {
     try {
-      const id = req.params;
+      const { id } = req.params;
 
       await JokeController.delete(Number(id));
       return res.status(204).send();

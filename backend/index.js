@@ -5,6 +5,7 @@ const database = require("./src/config/database");
 const {
   insertCategoriesIfNotExist,
 } = require("./src/seeders/InsertCategories");
+const { insertAdminIfNotExist } = require("./src/seeders/InsertAdmin");
 const app = express();
 
 app.use(express.json());
@@ -13,7 +14,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/joke", jokeRouter);
 
 database.db
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     app.listen(8000, () => {
       console.log("Server running at port 8000");
@@ -24,4 +25,5 @@ database.db
   })
   .finally(() => {
     insertCategoriesIfNotExist();
+    insertAdminIfNotExist();
   });

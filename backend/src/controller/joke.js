@@ -2,7 +2,7 @@ const joke = require("../model/joke");
 const categoryModel = require("../model/category");
 
 class JokeController {
-  async create(category, value, userId) {
+  async create(value, category, userId) {
     if (!category || !value) {
       throw new Error("Category, value are required");
     }
@@ -18,7 +18,7 @@ class JokeController {
     try {
       const userJoke = await joke.create({
         value,
-        category,
+        categoryId: categoryValue.id,
         userId,
       });
 
@@ -44,15 +44,15 @@ class JokeController {
     return jokeValue;
   }
 
-  async update(id, category, strJoke) {
-    if (!id || !category || !strJoke) {
-      throw new Error("Id, category and strJoke are required");
+  async update(id, category, strValue) {
+    if (!id || !category || !strValue) {
+      throw new Error("Id, category and strValue are required");
     }
 
     const jokeValue = await this.findJoke(id);
 
     jokeValue.category = category;
-    jokeValue.strJoke = strJoke;
+    jokeValue.value = strValue;
     await jokeValue.save();
 
     return jokeValue;
