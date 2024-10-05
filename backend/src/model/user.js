@@ -1,14 +1,32 @@
-const usersMock = new Array({
-    email: "davi@davi",
-    password: "davi"
-})
+const database = require("../config/database");
 
 class UserModel {
-
-    findAll() {
-        return usersMock
-    }
-
+  constructor() {
+    this.model = database.db.define("users", {
+      id: {
+        type: database.db.Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: database.db.Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: database.db.Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: database.db.Sequelize.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: database.db.Sequelize.ENUM("admin", "viewer", "blocked"),
+        allowNull: false,
+      },
+    });
+  }
 }
 
-module.exports = new UserModel()
+module.exports = new UserModel().model;

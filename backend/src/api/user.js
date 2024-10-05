@@ -1,45 +1,104 @@
-const UserController = require("../controller/user")
+const UserController = require("../controller/user");
 
 class UserApi {
-
-    findUser(req, res) {
-        try {
-            const users = UserController.findAll()
-
-            res.send({ users })
-        } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
-        }
+  async createUser(req, res) {
+    const { name, email, password } = req.body;
+    const role = "viewer";
+    try {
+      const user = await UserController.create(name, email, password, role);
+      return res.status(201).send(user);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error creating user: ${e.message}` });
     }
+  }
 
-    createUser(req, res) {
-        try {
-            throw new Error("deu ruim aqui :/")
-            res.send('post')
-        } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
-        }
+  async createAdmin(req, res) {
+    const { name, email, password } = req.body;
+    const role = "admin";
+    try {
+      const user = await UserController.create(name, email, password, role);
+      return res.status(201).send(user);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error creating user: ${e.message}` });
     }
+  }
 
-    updateUser(req, res) {
-        try {
-            res.send('put')
-        } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
-        }
-    }
+  async updateUser(req, res) {
+    const { id } = req.params || req.user;
+    const { name, email, password } = req.body;
 
-    deleteUser(req, res) {
-        try {
-            res.send('delete')
-        } catch (e) {
-            console.log(e)
-            res.status(404).send('deu erro')
-        }
+    try {
+      const user = await UserController.update(id, name, email, password);
+      return res.status(200).send(user);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error updating user: ${e.message}` });
     }
+  }
+
+  async deleteUser(req, res) {
+    try {
+      const id = req.params.id || req.user.id;
+
+      await UserController.delete(Number(id));
+      return res.status(204).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error deleting user: ${e.message}` });
+    }
+  }
+
+  async blockUser(req, res) {
+    try {
+      const { id } = req.params;
+
+      await UserController.block(Number(id));
+      return res.status(204).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error deleting user: ${e.message}` });
+    }
+  }
+
+  async findUsers(req, res) {
+    try {
+      const users = await UserController.find();
+      return res.status(200).send(users);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error listing users: ${e.message}` });
+    }
+  }
+
+  async findUserById(req, res) {
+    const { id } = req.params || req.user;
+
+    try {
+      const user = await UserController.findUser(id || req.user.id);
+      return res.status(200).send(user);
+    } catch (e) {
+      return res.status(400).send({ error: `Error to get user: ${e.message}` });
+    }
+  }
+
+  async login(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      const token = await UserController.login(email, password);
+      return res.status(200).send({ token });
+    } catch (e) {
+      return res.status(400).send({ error: `Error logging: ${e.message}` });
+    }
+  }
 }
 
 module.exports = new UserApi();
