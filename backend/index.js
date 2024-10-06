@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = require("./src/routes/user");
 const jokeRouter = require("./src/routes/joke");
+const categoryRouter = require("./src/routes/category");
 const database = require("./src/config/database");
 const {
   insertCategoriesIfNotExist,
@@ -12,9 +13,10 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/joke", jokeRouter);
+app.use("/api/v1/category", categoryRouter);
 
 database.db
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     app.listen(8000, () => {
       console.log("Server running at port 8000");

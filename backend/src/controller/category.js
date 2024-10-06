@@ -26,13 +26,13 @@ class CategoryController {
       throw new Error("Id is required");
     }
 
-    const categoryValue = await user.findByPk(id);
+    const categoryValue = await category.findByPk(id);
 
     if (!categoryValue) {
       throw new Error("Category not found");
     }
 
-    return userValue;
+    return categoryValue;
   }
 
   async update(id, value, description) {
