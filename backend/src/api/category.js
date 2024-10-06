@@ -30,7 +30,7 @@ class CategoryApi {
 
   async deleteCategory(req, res) {
     try {
-      const id = req.params;
+      const { id } = req.params;
 
       await CategoryController.delete(Number(id));
       return res.status(204).send();
@@ -53,12 +53,25 @@ class CategoryApi {
   }
 
   async findCategoryById(req, res) {
-    const id = req.params;
+    const { id } = req.params;
     try {
       const category = await CategoryController.findCategory(id);
       return res.status(200).send(category);
     } catch (e) {
-      return res.status(400).send({ error: `Error to get category: ${e.message}` });
+      return res
+        .status(400)
+        .send({ error: `Error to get category: ${e.message}` });
+    }
+  }
+
+  async findAll(req, res) {
+    try {
+      const categories = await CategoryController.find();
+      return res.status(200).send(categories);
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error listing jokes: ${e.message}` });
     }
   }
 }
