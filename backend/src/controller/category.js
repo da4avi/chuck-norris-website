@@ -2,7 +2,7 @@ const category = require("../model/category");
 
 class CategoryController {
   async create(value, description) {
-    if (!value || !description ) {
+    if (!value || !description) {
       throw new Error("Value and description are required");
     }
 
@@ -26,13 +26,13 @@ class CategoryController {
       throw new Error("Id is required");
     }
 
-    const categoryValue = await user.findByPk(id);
+    const categoryValue = await category.findByPk(id);
 
     if (!categoryValue) {
       throw new Error("Category not found");
     }
 
-    return userValue;
+    return categoryValue;
   }
 
   async update(id, value, description) {
@@ -55,13 +55,22 @@ class CategoryController {
     }
 
     const categoryValue = await this.findCategory(id);
-    await categoryValue.destroy();
+
+    try {
+      await categoryValue.destroy();
+    } catch (e) {
+      if (e.name === "SequelizeForeignKeyConstraintError") {
+        throw new Error(
+          "Cannot delete category because it is associated with existing jokes"
+        );
+      }
+      throw e;
+    }
   }
 
   async find() {
     return category.findAll();
   }
-
 }
 
 module.exports = new CategoryController();

@@ -6,6 +6,7 @@ const authMiddleware = require("../middleware/auth");
 router.post("/", authMiddleware(["admin"]), CategoryApi.createCategory);
 router.put("/:id", authMiddleware(["admin"]), CategoryApi.updateCategory);
 router.get("/:id", authMiddleware(["admin"]), CategoryApi.findCategoryById);
+router.get("/", authMiddleware(), CategoryApi.findAll);
 router.delete("/:id", authMiddleware(["admin"]), CategoryApi.deleteCategory);
 
 module.exports = router;
