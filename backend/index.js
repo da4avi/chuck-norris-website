@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = require("./src/routes/user");
 const jokeRouter = require("./src/routes/joke");
 const categoryRouter = require("./src/routes/category");
+const cors = require("cors");
 const database = require("./src/config/database");
 const {
   insertCategoriesIfNotExist,
@@ -10,6 +11,7 @@ const { insertAdminIfNotExist } = require("./src/seeders/InsertAdmin");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/joke", jokeRouter);
