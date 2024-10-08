@@ -35,9 +35,16 @@ class CategoryApi {
       await CategoryController.delete(Number(id));
       return res.status(204).send();
     } catch (e) {
-      return res
-        .status(400)
-        .send({ error: `Error deleting category: ${e.message}` });
+      if (e.message.includes("associated with existing jokes")) {
+        return res.status(409).send({
+          error:
+            "Cannot delete category because it is associated with existing jokes.",
+        });
+      }
+
+      return res.status(400).send({
+        error: `Error deleting category: ${e.message}`,
+      });
     }
   }
 
@@ -71,7 +78,7 @@ class CategoryApi {
     } catch (e) {
       return res
         .status(400)
-        .send({ error: `Error listing jokes: ${e.message}` });
+        .send({ error: `Error to get category: ${e.message}` });
     }
   }
 }
