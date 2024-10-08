@@ -11,6 +11,7 @@ class CategoryModel {
       value: {
         type: database.db.Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       description: {
         type: database.db.Sequelize.STRING,
