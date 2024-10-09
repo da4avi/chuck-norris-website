@@ -22,11 +22,6 @@ export default function Register () {
                         <br />
                         <input type="password" name="" id="" />
                     </div>
-                    <div>
-                        <label htmlFor="">Confirm Password: </label>
-                        <br />
-                        <input type="password" name="" id="" />
-                    </div>
                 </form>
                 <li>
                     <Link to="/login">
