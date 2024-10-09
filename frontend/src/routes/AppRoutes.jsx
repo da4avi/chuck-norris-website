@@ -7,6 +7,7 @@ import AboutTheCreators from "../pages/AboutTheCreators";
 import Jokes from "../pages/Jokes";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRoutes() {
     return (
@@ -15,9 +16,13 @@ export default function AppRoutes() {
                 <Header />
                 <Routes>
                     <Route path='/' element={<Home />} />
+
+                    <Route element={<PrivateRoute />}>
                     <Route path='/aboutchucknorris' element={<AboutChuckNorris />} />
                     <Route path='/jokes' element={<Jokes />} />
                     <Route path='/aboutthecreators' element={<AboutTheCreators />} />
+                    </Route>
+                    
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
                 </Routes>
