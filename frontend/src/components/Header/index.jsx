@@ -60,7 +60,7 @@ function Nav() {
                     {role === "admin" ? (
                         <li onClick={removeActive} className="navLink"><Link to="/admin">Admin</Link></li>
                     ) : (
-                        <li onClick={removeActive} className="navLink"><Link to="/yoursjoke">Make your own jokes</Link></li>
+                        <li onClick={removeActive} className="navLink"><Link to="/yoursjokes">Make your own jokes</Link></li>
                     )}
                     <li><button onClick={() => changeLang("en")} className='m-2'>en</button></li>
                     <li><button onClick={() => changeLang("pt")} className='m-2'>pt</button></li>
