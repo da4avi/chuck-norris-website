@@ -111,7 +111,7 @@ class UserController {
       throw new Error("Invalid email or password");
     }
 
-    return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: "1h" });
+    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, { expiresIn: "1h" });
   }
 }
 
