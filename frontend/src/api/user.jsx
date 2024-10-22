@@ -1,7 +1,8 @@
 import api from './api'
 
-export const createUser = async (user) => {
-    const response = await api.post('/api/v1/user', user)
+export const registerUser = async (name, email, password) => {
+    const body = { name, email, password }
+    const response = await api.post('/api/v1/user/register', body)
     return response.data
 }
 export const loginUser = async (email, password) => {
@@ -14,10 +15,12 @@ export const updateUser = async (user) => {
     const response = await api.put(`/api/v1/user/${id}`, user)
     return response.data
 }
+
 export const getUser = async () => {
     const response = await api.get('/api/v1/user')
     return response.data
 }
+
 export const deleteUser = async () => {
     return api.delete(`/api/v1/user/${id}`)
 }
