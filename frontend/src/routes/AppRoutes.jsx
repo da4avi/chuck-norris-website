@@ -8,25 +8,28 @@ import Jokes from "../pages/Jokes";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "../auth/Context";
 
 export default function AppRoutes() {
     return (
         <>
             <BrowserRouter>
-                <Header />
-                <Routes>
-                    <Route path='/' element={<Home />} />
+                <AuthProvider>
+                    <Header />
+                    <Routes>
+                        <Route path='/' element={<Home />} />
 
-                    <Route element={<PrivateRoute />}>
-                    <Route path='/aboutchucknorris' element={<AboutChuckNorris />} />
-                    <Route path='/jokes' element={<Jokes />} />
-                    <Route path='/aboutthecreators' element={<AboutTheCreators />} />
-                    </Route>
-                    
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/register' element={<Register />} />
-                </Routes>
-                <Footer />
+                        <Route element={<PrivateRoute />}>
+                            <Route path='/aboutchucknorris' element={<AboutChuckNorris />} />
+                            <Route path='/jokes' element={<Jokes />} />
+                            <Route path='/aboutthecreators' element={<AboutTheCreators />} />
+                        </Route>
+
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
+                    </Routes>
+                    <Footer />
+                </AuthProvider>
             </BrowserRouter>
         </>
     )

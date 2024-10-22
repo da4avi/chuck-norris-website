@@ -8,6 +8,8 @@
     align-items: center;
     font-weight: 250;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+    position: fixed;
+    width: 100%;
 }
 
 .navLinksGroup {
@@ -35,7 +37,7 @@
     color: rgb(177, 177, 177);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
 
     /* navMenu */
     .navLinksGroup {
