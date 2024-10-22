@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import './styles.css'
-import { useEffect } from 'react';
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
 import translate from "translate";
 translate.engine = "google";
 import { useTranslation } from 'react-i18next'
@@ -34,7 +33,6 @@ export default function Home() {
         if (!joke || joke != "Loading...") {
             getRandomJoke()
         }
-        console.log(i18n)
     }, [])
 
 
@@ -42,21 +40,21 @@ export default function Home() {
 
         <div className='home' >
             <section className='texto'>
-                <h2>{t('title')}</h2>
+                <h2>{t('whowas')}</h2>
                 <br />
                 <p className='p'>{t('home')}</p>
                 <br />
                 <li><Link to="/aboutchucknorris">{t('readmore')}</Link></li>
             </section>
             <section className='joke'>
-                <h2>Random joke</h2>
+                <h2>{t('randomjoke')}</h2>
                 <br />
                 <p className='p'>{i18n.language === "en" ? joke : jokeTranslated}</p>
                 <br />
-                <button onClick={() => getRandomJoke()} type="button">New Joke</button>
+                <button onClick={() => getRandomJoke()} type="button">{t('newjoke')}</button>
                 <br />
                 <br />
-                <li><Link to="/jokes">More Jokes</Link></li>
+                <li><Link to="/jokes">{t('morejokes')}</Link></li>
             </section>
         </div>
 

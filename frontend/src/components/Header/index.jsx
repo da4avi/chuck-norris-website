@@ -50,10 +50,10 @@ function Nav() {
                     <img className='chuck-norris-icon' src={chuckNorrisIcon} alt="Who was Chuck Norris" width={49} height="auto" />
                 </figure>
                 <ul className={`navLinksGroup ${isActive ? "navActive" : ""}`}>
-                    <li onClick={removeActive} className="navLink"><Link to="/">Home</Link></li>
-                    <li onClick={removeActive} className="navLink"><Link to="/jokes">Jokes</Link></li>
-                    <li onClick={removeActive} className="navLink"><Link to="/aboutchucknorris">About Chuck Norris</Link></li>
-                    <li onClick={removeActive} className="navLink"><Link to="/aboutthecreators">About the creators</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/">{t('navhome')}</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/jokes">{t('navjokes')}</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/aboutchucknorris">{t('navabtcn')}</Link></li>
+                    <li onClick={removeActive} className="navLink"><Link to="/aboutthecreators">{t('navabttc')}</Link></li>
                     <li><button onClick={ () => changeLang("en") } className='m-2'>en</button></li>
                     <li><button onClick={ () => changeLang("pt") } className='m-2'>pt</button></li>  
                 </ul>

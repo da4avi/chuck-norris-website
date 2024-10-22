@@ -1,5 +1,34 @@
 {
-    "title": "Quem foi",
+    "whowas": "Quem foi",
     "home": "Chuck Norris é um artista marcial, ator e ícone cultural, famoso por sua imagem de durão e lendário chute circular. Alcançando a fama na década de 1970 com filmes como Way of the Dragon, ele mais tarde se tornou uma estrela de TV em Walker, Texas Ranger. Além de atuar, Norris fundou organizações e programas de artes marciais como o Kickstart Kids, impactando milhares de vidas. Ele também é uma lenda da cultura pop graças ao humorístico Chuck Norris Facts.",
-    "readmore": "Leia mais"
+    "readmore": "Leia mais",
+    "randomjoke": "Piada aleatória",
+    "newjoke": "Nova piada",
+    "morejokes": "Mais piadas",
+
+
+
+
+    "aboutchucknorris": "Sobre o Chuck Norris",
+    "earlylife": "Juventude",
+    "bornon": "Chuck Norris, nascido em 10 de março de 1940, em Ryan, Oklahoma, é um artista marcial, ator e ícone cultural conhecido por sua imagem de durão e chute circular característico. Criado em uma família humilde, Norris desenvolveu um forte interesse pelas artes marciais enquanto servia na Força Aérea dos Estados Unidos na Coreia do Sul. Após retornar aos Estados Unidos, passou a competir em torneios de caratê, onde conquistou diversos campeonatos, firmando-se como um dos maiores lutadores de sua época.",
+    "movies": "Filmes",
+    "beganhis": "Chuck Norris começou sua carreira cinematográfica em papéis menores, mas foi em 1972, com o filme Way of the Dragon, que ganhou fama mundial. Neste filme, ele estrelou ao lado de Bruce Lee, entregando um dos mais cenas de luta icônicas na história do cinema. Esse sucesso abriu portas para outros papéis em filmes de ação, que se tornaram sua marca registrada. Alguns dos filmes mais notáveis ​​​​de Norris incluem Good Guys Wear Black (1978), Lone Wolf McQuade (1983), Code of Silence (1985). e a série Missing in Action (1984-1988). No entanto, foi na televisão que ele solidificou sua popularidade ao interpretar Cordell Walker na série Walker, Texas Ranger (1993-2001), onde interpretou um Texas Ranger que lutou contra o crime. com uma combinação de artes marciais e integridade moral.",
+    "projects": "Projetos",
+    "beyondhis": "Além de sua carreira no cinema e na televisão, Chuck Norris esteve envolvido em vários projetos e iniciativas ao longo dos anos. Ele fundou a United Fighting Arts Federation (UFAF), uma organização dedicada ao ensino e promoção das artes marciais. Outro projeto significativo é o Kickstart Kids, um programa que utiliza artes marciais como uma ferramenta para o desenvolvimento do caráter e habilidades para a vida em jovens. Este programa ajudou milhares de estudantes a construir confiança, disciplina e valores morais.",
+    "cultural": "Ícone Cultural",
+    "alsobecame": "Chuck Norris também se tornou um fenômeno da cultura pop com o surgimento de Chuck Norris Facts, uma série de factóides satíricos que exageram suas habilidades e invencibilidade, transformando-o em uma lenda viva. Esses fatos reforçaram ainda mais sua imagem de durão, tornando-o uma figura reverenciada e, ao mesmo tempo, bem-humorada no imaginário popular.",
+
+
+
+    "aboutthecreators": "Sobre os criadores",
+    "softwaredev": "Desenvolvedor de Software",
+    "nodedev": "Desenvolvedor em Node | React.js",
+    
+
+
+    "navhome": "Início",
+    "navjokes": "Piadas",
+    "navabtcn": "Sobre o Chuck Norris",
+    "navabttc": "Sobre os Criadores"
 }
