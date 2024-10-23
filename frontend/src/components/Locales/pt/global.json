@@ -27,8 +27,21 @@
     
 
 
+    "websitemap": "Mapa do Site",
     "navhome": "Início",
     "navjokes": "Piadas",
     "navabtcn": "Sobre o Chuck Norris",
-    "navabttc": "Sobre os Criadores"
+    "navabttc": "Sobre os Criadores",
+    "navmakeyour": "Faça suas próprias piadas",
+        
+
+
+    "password": "Senha:",
+    "signin": "Entrar",
+
+
+
+    "signup": "Cadastro",
+    "user": "Usuário:",
+    "create": "Criar"
 }

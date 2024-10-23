@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './styles.css';
 import { registerUser } from '../../api/user';
+import { useTranslation } from 'react-i18next'
 
 export default function Register() {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [t] = useTranslation("global")
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,11 +28,11 @@ export default function Register() {
 
     return (
         <div className='register'>
-            <h1>Sign up</h1>
+            <h1>{t('signup')}</h1>
             <div className='card'>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="username">User: </label>
+                        <label htmlFor="username">{t('user')} </label>
                         <br />
                         <input type="text" onChange={(e) => setName(e.target.value)} name="username" id="username" />
                     </div>
@@ -40,13 +42,13 @@ export default function Register() {
                         <input type="email" onChange={(e) => setEmail(e.target.value)} name="email" id="email" />
                     </div>
                     <div>
-                        <label htmlFor="password">Password: </label>
+                        <label htmlFor="password">{t('password')} </label>
                         <br />
                         <input type="password" onChange={(e) => setPassword(e.target.value)} name="password" id="password" />
                     </div>
                 </form>
                 <li>
-                    <button type="submit">Create</button>
+                    <button type="submit">{t('create')}</button>
                     <Link to="/login">
                         <button type="button">Login</button>
                     </Link>
