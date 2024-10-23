@@ -13,7 +13,6 @@ export default function Register() {
     const [t] = useTranslation("global")
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         try {
             const response = await registerUser(name, email, password);
             if (response.ok) {
@@ -30,7 +29,7 @@ export default function Register() {
         <div className='register'>
             <h1>{t('signup')}</h1>
             <div className='card'>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div>
                         <label htmlFor="username">{t('user')} </label>
                         <br />
@@ -48,7 +47,7 @@ export default function Register() {
                     </div>
                 </form>
                 <li>
-                    <button type="submit">{t('create')}</button>
+                    <button type="submit" onClick={handleSubmit}>{t('create')}</button>
                     <Link to="/login">
                         <button type="button">Login</button>
                     </Link>
