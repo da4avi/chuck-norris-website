@@ -27,8 +27,21 @@
 
 
 
+    "websitemap": "Website Map",
     "navhome": "Home",
     "navjokes": "Jokes",
     "navabtcn": "About Chuck Norris",
-    "navabttc": "About the Creators"
+    "navabttc": "About the Creators",
+    "navmakeyour": "Make your own jokes",
+    
+
+
+    "password": "Password:",
+    "signin": "Sign In",
+
+
+
+    "signup": "Sign up",
+    "user": "User:",
+    "create": "Create"
 }

@@ -3,10 +3,12 @@ import './styles.css'
 import { loginUser } from '../../api/user'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../auth/Context'
+import { useTranslation } from 'react-i18next'
 
 export default function Login() {
     const { login } = useContext(AuthContext)
     const navigate = useNavigate()
+    const [t] = useTranslation("global")
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -35,7 +37,7 @@ export default function Login() {
                         <input type="email" name="" id="" onChange={(e) => { setEmail(e.target.value) }} />
                     </div>
                     <div>
-                        <label htmlFor="">Password: </label>
+                        <label htmlFor="">{t('password')} </label>
                         <br />
                         <input type="password" name="" id="" onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
@@ -43,7 +45,7 @@ export default function Login() {
                 <li>
                     <button type="button" onClick={handleSubmit}>Login</button>
                     <Link to="/register">
-                        <button type="button">Sign in</button>
+                        <button type="button">{t('signin')}</button>
                     </Link>
                 </li>
             </div>
