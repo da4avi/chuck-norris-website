@@ -11,7 +11,6 @@ export default function Register() {
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         try {
             const response = await registerUser(name, email, password);
             if (response.ok) {
@@ -28,7 +27,7 @@ export default function Register() {
         <div className='register'>
             <h1>Sign up</h1>
             <div className='card'>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div>
                         <label htmlFor="username">User: </label>
                         <br />
@@ -46,7 +45,7 @@ export default function Register() {
                     </div>
                 </form>
                 <li>
-                    <button type="submit">Create</button>
+                    <button type="submit" onClick={handleSubmit}>Create</button>
                     <Link to="/login">
                         <button type="button">Login</button>
                     </Link>
