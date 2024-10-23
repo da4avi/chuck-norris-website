@@ -63,5 +63,24 @@ class JokeApi {
       return res.status(400).send({ error: `Error to get joke: ${e.message}` });
     }
   }
+
+  async getRandomJoke(req, res) {
+    try {
+      const joke = await JokeController.findRandomJoke();
+      return res.status(200).send(joke);
+    } catch (e) {
+      return res.status(400).send({ error: `Error to get joke: ${e.message}` });
+    }
+  }
+
+  async getRandomJokeByCategory(req, res) {
+    const { category } = req.params
+    try {
+      const joke = await JokeController.findRandomJokeByCategory(category);
+      return res.status(200).send(joke);
+    } catch (e) {
+      return res.status(400).send({ error: `Error to get joke: ${e.message}` });
+    }
+  }
 }
 module.exports = new JokeApi();

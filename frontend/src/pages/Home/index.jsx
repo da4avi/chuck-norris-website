@@ -17,7 +17,7 @@ export default function Home() {
             redirect: "follow"
         }
 
-        const response = await fetch("https://api.chucknorris.io/jokes/random", requestOptions)
+        const response = await fetch("http://localhost:8000/api/v1/joke/random", requestOptions)
 
         if (!response.ok) {
             throw new Error("Error to get a joke")

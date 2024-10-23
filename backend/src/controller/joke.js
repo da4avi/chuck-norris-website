@@ -70,6 +70,37 @@ class JokeController {
   async find() {
     return joke.findAll();
   }
+
+  async findRandomJoke() {
+    const jokes = await this.find();
+    const jokesCount = jokes.length;
+
+    if (jokesCount === 0) {
+      throw new Error("No jokes available");
+    }
+
+    const randomIndex = Math.floor(Math.random() * jokesCount);
+    const jokeValue = jokes[randomIndex];
+
+    return jokeValue;
+  }
+
+  async findRandomJokeByCategory(category) {
+    const jokes = await this.find();
+    const filteredJokes = jokes.filter(joke => joke.category === category);
+    const jokesCount = filteredJokes.length;
+
+    if (jokesCount === 0) {
+      throw new Error("No jokes available for this category");
+    }
+
+    const randomIndex = Math.floor(Math.random() * jokesCount);
+    const jokeValue = filteredJokes[randomIndex];
+
+    return jokeValue;
+  }
+
+
 }
 
 module.exports = new JokeController();
