@@ -25,6 +25,10 @@ class UserModel {
         type: database.db.Sequelize.ENUM("admin", "viewer", "blocked"),
         allowNull: false,
       },
+      acessCode: {
+        type: database.db.Sequelize.STRING,
+        allowNull: true,
+      },
     });
   }
 }

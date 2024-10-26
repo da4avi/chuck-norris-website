@@ -1,6 +1,8 @@
 const user = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const SECRET_KEY = process.env.SECRET_KEY || "development";
 const SALT_VALUE = 10;
@@ -27,6 +29,27 @@ class UserController {
         throw new Error("Email already exists");
       }
       throw new Error(error.message || "Error creating user");
+    }
+  }
+
+  async createAccessCode({ code, email }) {
+    if (!code) {
+      throw new Error("Code is required");
+    }
+
+    try {
+      const userValue = await user.update(
+        { accessCode: code },
+        { where: { email } }
+      );
+
+      if (!userValue[0]) {
+        throw new Error("User not found");
+      }
+
+      return userValue;
+    } catch (error) {
+      throw new Error(error.message || "Error creating access code");
     }
   }
 
@@ -101,6 +124,12 @@ class UserController {
     }
 
     const userValue = await user.findOne({ where: { email } });
+    const accessCode = Math.floor(100000 + Math.random() * 900000);
+    const userCode = await this.createAccessCode(accessCode, email);
+
+    if (!userCode) {
+      throw new Error("Access code not generated");
+    }
 
     if (!userValue) {
       throw new Error("Invalid email or password");
@@ -111,7 +140,24 @@ class UserController {
       throw new Error("Invalid email or password");
     }
 
-    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, { expiresIn: "1h" });
+    const msg = {
+      to: email,
+      from: "chucknorriswebsiteapi@gmail.com",
+      subject: "Your Access Code | Chuck Norris",
+      text: `Your access code is: ${accessCode}`,
+      html: `Your access code is: <strong>${accessCode}</strong>`,
+    };
+
+    try {
+      await sgMail.send(msg);
+    } catch (error) {
+      console.error("Error sending email: ", error);
+      throw new Error("Failed to send access code");
+    }
+
+    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
   }
 }
 
