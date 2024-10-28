@@ -31,9 +31,9 @@ class JokeApi {
   }
 
   async deleteJoke(req, res) {
-    try {
-      const { id } = req.params;
+    const { id } = req.params;
 
+    try {
       await JokeController.delete(Number(id));
       return res.status(204).send();
     } catch (e) {
@@ -45,7 +45,9 @@ class JokeApi {
 
   async findJokes(req, res) {
     try {
-      const jokes = await JokeController.find();
+      const userId = req.user.id;
+      const userToken = req.headers.authorization;
+      const jokes = await JokeController.find(userId, userToken);
       return res.status(200).send(jokes);
     } catch (e) {
       return res
@@ -55,12 +57,15 @@ class JokeApi {
   }
 
   async findJokeById(req, res) {
-    const id = req.params;
+    const { id } = req.params;
+
     try {
       const joke = await JokeController.findJoke(id);
       return res.status(200).send(joke);
     } catch (e) {
-      return res.status(400).send({ error: `Error to get joke: ${e.message}` });
+      return res
+        .status(400)
+        .send({ error: `Error getting joke: ${e.message}` });
     }
   }
 
@@ -69,18 +74,24 @@ class JokeApi {
       const joke = await JokeController.findRandomJoke();
       return res.status(200).send(joke);
     } catch (e) {
-      return res.status(400).send({ error: `Error to get joke: ${e.message}` });
+      return res
+        .status(400)
+        .send({ error: `Error getting joke: ${e.message}` });
     }
   }
 
   async getRandomJokeByCategory(req, res) {
-    const { category } = req.params
+    const { category } = req.params;
+
     try {
       const joke = await JokeController.findRandomJokeByCategory(category);
       return res.status(200).send(joke);
     } catch (e) {
-      return res.status(400).send({ error: `Error to get joke: ${e.message}` });
+      return res
+        .status(400)
+        .send({ error: `Error getting joke: ${e.message}` });
     }
   }
 }
+
 module.exports = new JokeApi();
