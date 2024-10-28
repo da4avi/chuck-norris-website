@@ -18,14 +18,6 @@
     width: 340px;
 }
 
-.register input {
-    padding: 10px;
-    width: 80%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-left: 20px;
-}
-
 .register li {
         display: flex;
         justify-content: center;

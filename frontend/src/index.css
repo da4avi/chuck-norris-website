@@ -1,6 +1,17 @@
 .panel-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-message {
+  color: green;
+  font-weight: 700;
+}
+
+.error-message {
+  color: rgb(209, 20, 20);
+  font-weight: 700;
 }
