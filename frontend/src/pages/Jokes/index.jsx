@@ -1,6 +1,7 @@
 import "./styles.css";
 import { useState, useEffect, useRef } from "react";
 import icon from "../../assets/chuckNorrisIcon.webp";
+import { getRandomJokeByCategory } from "../../api/joke";
 
 export default function Jokes() {
   const [joke, setJoke] = useState();
@@ -29,22 +30,11 @@ export default function Jokes() {
     "sport",
     "travel",
   ];
-  //bad jokes: "religion", "explicit", "political"
 
   const getJokeByCategory = async (category) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://api.chucknorris.io/jokes/random?category=${category}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const result = await response.json();
+      const result = await getRandomJokeByCategory(category);
       setJoke(result.value);
     } catch (error) {
       console.error(error);

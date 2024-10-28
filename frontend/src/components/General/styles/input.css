@@ -1,0 +1,24 @@
+.styledInput {
+  padding: 12px 15px;
+  width: 90%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 20px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.styledInput:focus {
+  border-color: #4070f4;
+  box-shadow: 0 0 5px rgba(64, 112, 244, 0.5);
+}
+
+.styledInput:hover {
+  border-color: #999;
+}
+
+.styledInput::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
