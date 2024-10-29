@@ -39,7 +39,9 @@ export default function Logout() {
             <div className="dropdown-content">
               <Link to="/profile">Profile</Link>
               <Link to="/yoursjokes">My Jokes</Link>
-              <a onClick={logout}>Logout</a>
+              <Link to="/login" onClick={logout}>
+                Logout
+              </Link>
             </div>
           )}
         </div>

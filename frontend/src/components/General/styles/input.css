@@ -4,7 +4,6 @@
   max-width: 300px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-left: 20px;
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
 }

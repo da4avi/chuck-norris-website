@@ -15,3 +15,11 @@
   color: rgb(209, 20, 20);
   font-weight: 700;
 }
+
+.actionsButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}

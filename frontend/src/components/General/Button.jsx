@@ -15,7 +15,7 @@ export default function Button({
       name={name}
       value={value}
       className={` styledButton ${className}`}
-      type={type}
+      type={type || "submit"}
       onClick={onClick}
     >
       {children}

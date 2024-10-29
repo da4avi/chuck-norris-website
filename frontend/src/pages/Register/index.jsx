@@ -15,7 +15,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [t] = useTranslation("global");
+  const { t } = useTranslation("global");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +26,11 @@ export default function Register() {
     try {
       const response = await registerUser(name, email, password);
 
-      if (response.ok) {
+      if (!response.error) {
         setSuccessMessage(t("registrationSuccess"));
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        const errorMessage = response.error || t("registrationError");
-        setErrorMessage(errorMessage);
+        setErrorMessage(response.error || t("registrationError"));
       }
     } catch (error) {
       setErrorMessage(t("Failed to register user"));
@@ -44,39 +43,53 @@ export default function Register() {
     <div className="register">
       <h1>{t("signup")}</h1>
       <div className="card">
-        <Form>
-          <label htmlFor="username">{t("user")} </label>
+        <Form onSubmit={handleSubmit}>
+          <label htmlFor="username">{t("user")}</label>
           <Input
+            placeholder="Type your name or nickname"
+            required
             type="text"
             onChange={(e) => setName(e.target.value)}
             name="username"
             id="username"
           />
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="email">Email:</label>
           <Input
+            placeholder="Type your best email"
+            required
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             name="email"
             id="email"
           />
-          <label htmlFor="password">{t("password")} </label>
+          <label htmlFor="password">{t("password")}</label>
           <Input
+            required
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             name="password"
+            placeholder="Type a strong password"
             id="password"
           />
+          <div className="actionsButtons">
+            <Button type="submit" disabled={loading}>
+              {loading ? t("loading") : t("Create")}
+            </Button>
+            <p>
+              Already have an account? <Link to="/login">Log in</Link>
+            </p>
+          </div>
         </Form>
-        <li>
-          <Button type="submit" onClick={handleSubmit} disabled={loading}>
-            {loading ? t("loading") : t("create")}
-          </Button>
-          <Link to="/login">
-            <Button type="button">{t("login")}</Button>
-          </Link>
-        </li>
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && (
+          <p className="success-message" aria-live="polite">
+            {successMessage}
+          </p>
+        )}
+        {errorMessage && (
+          <p className="error-message" aria-live="assertive">
+            {errorMessage}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -11,8 +11,7 @@ import Button from "../../components/General/Button";
 export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [t] = useTranslation("global");
-
+  const { t } = useTranslation("global");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,8 +26,7 @@ export default function Login() {
       const response = await loginUser(email, password);
 
       if (response.error) {
-        const { error } = response;
-        setErrorMessage(t(error));
+        setErrorMessage(t(response.error));
       } else if (response.token) {
         login(response.token);
         navigate("/");
@@ -44,29 +42,37 @@ export default function Login() {
     <div className="login">
       <h1>{t("login")}</h1>
       <div className="card">
-        <Form action="">
-          <label htmlFor="email">{t("email")}: </label>
+        <Form onSubmit={handleSubmit}>
+          <label htmlFor="email">{t("Email")}: </label>
           <Input
+          placeholder={"Email"}
+            required
             type="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label htmlFor="password">{t("password")} </label>
+          <label htmlFor="password">{t("password")}</label>
           <Input
+            placeholder={"Password"}
+            required
             type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className="actionsButtons">
+            <Button type="submit" disabled={loading}>
+              {loading ? t("Loading") : t("Login")}
+            </Button>
+            <p>
+              New here? <Link to="/register">Create an account</Link>
+            </p>
+          </div>
         </Form>
-        <li>
-          <Button type="button" onClick={handleSubmit} disabled={loading}>
-            {loading ? t("loading") : t("login")}
-          </Button>
-          <Link to="/register">
-            <Button type="button">{t("signin")}</Button>
-          </Link>
-        </li>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {errorMessage && (
+          <p className="error-message" aria-live="assertive">
+            {errorMessage}
+          </p>
+        )}
       </div>
     </div>
   );
