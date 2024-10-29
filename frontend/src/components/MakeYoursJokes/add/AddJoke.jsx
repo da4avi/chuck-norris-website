@@ -33,26 +33,44 @@ export default function AddJoke() {
     strValue: "",
   });
 
+  const validateJoke = (joke) => {
+    const spaceRegex = /^(?=.*\s).*$/;
+    if (!spaceRegex.test(joke.strValue)) {
+      return "The joke must contain at least one space between letters.";
+    }
+
+    if (joke.strValue.length < 10) {
+      return "The joke must be at least 10 characters long.";
+    }
+
+    if (joke.strValue.length > 200) {
+      return "The joke must be no more than 200 characters long.";
+    }
+
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!joke.category || joke.category === "Select a category") {
         return setError("Please select a category");
       }
+
+      const validationError = validateJoke(joke);
+      if (validationError) {
+        return setError(validationError);
+      }
+
       setLoading(true);
       const response = await createJoke(joke);
 
       if (!response.ok) {
         setError(response.message);
       }
-
       setSuccess("Joke created successfully");
       setJoke({ category: "Select a category", strValue: "" });
       setTimeout(() => {
-        setJoke({
-          category: "Select a category",
-          strValue: "",
-        });
         setSuccess("");
         setError("");
         setLoading(false);
@@ -61,11 +79,7 @@ export default function AddJoke() {
     } catch (error) {
       setError("An unexpected error occurred");
     } finally {
-      setTimeout(() => {
-        setSuccess("");
-        setError("");
-        setLoading(false);
-      }, 500);
+      setLoading(false);
     }
   };
 

@@ -121,3 +121,29 @@
 .chuck-norris-icon {
   filter: drop-shadow(0 0 10px rgba(212, 212, 212, 0.5));
 }
+
+.chuck-norris-icon:hover {
+  animation: shake 0.25s infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(5deg);
+  }
+
+  50% {
+    transform: rotate(0eg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}

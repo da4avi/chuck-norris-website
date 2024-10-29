@@ -47,7 +47,6 @@ export default function MakeYoursJokes() {
           )}
         </Button>
         {showAddJoke && <AddJoke onJokeAdded={fetchJokes} />}{" "}
-        {/* Passa a função de atualização */}
       </div>
       <ListAllJokes
         jokes={jokes}

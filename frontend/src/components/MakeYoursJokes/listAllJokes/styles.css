@@ -4,16 +4,11 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  width: 100%;
-  max-width: 600px;
   margin: 0 auto;
 }
 
 .actionContainer {
   display: flex;
-  gap: 20px;
-  width: 100%;
-  max-width: 500px;
   flex-direction: column;
   justify-content: center;
   background-color: #f9f9f9;
@@ -21,13 +16,19 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  max-width: 500px;
+}
+
+.jokeContent {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
 }
 
 .showJokeContainer {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
 
 .actionsButton {
@@ -50,7 +51,7 @@
 }
 
 .actionsButton button svg {
-  transition: all ease-in-out 0.4s;
+  transition: color 0.4s ease-in-out;
   width: 16px;
   height: auto;
 }
@@ -59,35 +60,15 @@
   margin-top: 10px;
 }
 
-/* Media queries para responsividade */
 @media (max-width: 768px) {
-  .actionContainer {
-    width: 90%;
-    padding: 10px;
-    gap: 15px;
-  }
-
-  .showJokeContainer {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .actionsButton {
-    gap: 5px;
-  }
-}
-
-@media (max-width: 480px) {
   .jokesListContainer {
-    padding: 10px;
+    max-width: 400px;
   }
 
+  .jokeContent {
+    max-width: 300px;
+  }
   .actionContainer {
-    width: 100%;
-    padding: 8px;
-  }
-
-  .actionsButton button svg {
-    width: 14px;
+    width: 100% !important;
   }
 }
