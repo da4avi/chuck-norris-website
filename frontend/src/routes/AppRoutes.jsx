@@ -14,6 +14,8 @@ import NotFound from "../pages/NotFound";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../components/UserProfile";
+import AdminCategories from "../pages/Admin/Categories";
+import AdminUsers from "../pages/Admin/Users";
 
 export default function AppRoutes() {
   return (
@@ -35,6 +37,8 @@ export default function AppRoutes() {
             <Route path="/yoursjokes" element={<MakeYoursJokes />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/edit-joke/:jokeId" element={<UpdateJoke />} />
+            <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

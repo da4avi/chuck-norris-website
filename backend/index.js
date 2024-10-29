@@ -18,7 +18,7 @@ app.use("/api/v1/joke", jokeRouter);
 app.use("/api/v1/category", categoryRouter);
 
 database.db
-  .sync({ force: false })
+  .sync({ force: true })
   .then(async () => {
     app.listen(8000, () => {
       console.log("Server running at port 8000");

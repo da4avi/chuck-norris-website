@@ -1,4 +1,5 @@
 const user = require("../model/user");
+const jokeModel = require("../model/joke");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -81,6 +82,23 @@ class UserController {
 
     return userValue;
   }
+  async unlock(id) {
+    if (!id) {
+      throw new Error("Id is required");
+    }
+
+    const userValue = await this.findUser(id);
+
+    if (!userValue) {
+      throw new Error("User not found.");
+    }
+
+    userValue.role = "viewer";
+
+    await userValue.save();
+
+    return userValue;
+  }
 
   async delete(id) {
     if (!id) {
@@ -88,7 +106,19 @@ class UserController {
     }
 
     const userValue = await this.findUser(id);
+    if (!userValue) {
+      throw new Error("User not found");
+    }
+
+    await this.deleteJokesByUserId(id);
+
     await userValue.destroy();
+  }
+
+  async deleteJokesByUserId(userId) {
+    await jokeModel.destroy({
+      where: { userId: userId },
+    });
   }
 
   async find() {
@@ -111,7 +141,9 @@ class UserController {
       throw new Error("Invalid email or password");
     }
 
-    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, { expiresIn: "1h" });
+    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
   }
 }
 

@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getUser, updateUser, deleteUser } from "../../api/user";
 import { useNavigate } from "react-router-dom";
 import Form from "../General/Form";
 import Input from "../General/Input";
 import Button from "../General/Button";
 import "./styles.css";
+import { AuthContext } from "../../auth/Context";
 
 const UserProfile = () => {
+  const { logout } = useContext(AuthContext);
+
   const [user, setUser] = useState({
     id: null,
     name: "",
@@ -25,7 +28,6 @@ const UserProfile = () => {
           id: userData.id,
           name: userData.name,
           email: userData.email,
-          password: userData.password,
         });
         setLoading(false);
       } catch (error) {
@@ -55,7 +57,7 @@ const UserProfile = () => {
       try {
         await deleteUser();
         alert("Profile deleted successfully!");
-        navigate("/login");
+        logout();
       } catch (error) {
         console.error("Error when deleting profile", error);
       }
@@ -91,6 +93,7 @@ const UserProfile = () => {
           label={"Password"}
           type="password"
           name="password"
+          placeholder={"New password"}
           value={user.password}
           onChange={handleChange}
           disabled={!isPasswordEditable}
