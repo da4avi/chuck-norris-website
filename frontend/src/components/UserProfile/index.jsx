@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getUser, updateUser, deleteUser } from "../../api/user";
 import { useNavigate } from "react-router-dom";
+import Form from "../General/Form";
+import Input from "../General/Input";
+import Button from "../General/Button";
+import "./styles.css";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -10,6 +14,7 @@ const UserProfile = () => {
     password: "",
   });
   const [loading, setLoading] = useState(true);
+  const [isPasswordEditable, setIsPasswordEditable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,10 +25,11 @@ const UserProfile = () => {
           id: userData.id,
           name: userData.name,
           email: userData.email,
+          password: userData.password,
         });
         setLoading(false);
       } catch (error) {
-        console.error("Erro ao carregar usuário", error);
+        console.error("Error to load user", error);
       }
     };
     fetchUser();
@@ -38,60 +44,64 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       await updateUser(user);
-      alert("Perfil atualizado com sucesso!");
+      alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Erro ao atualizar perfil", error);
+      console.error("Error updating profile", error);
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm("Tem certeza que deseja deletar seu perfil?")) {
+    if (window.confirm("Are you sure you want to delete your profile?")) {
       try {
         await deleteUser();
-        alert("Perfil deletado com sucesso!");
-        navigate("/login"); // Redireciona para a página de login após a exclusão
+        alert("Profile deleted successfully!");
+        navigate("/login");
       } catch (error) {
-        console.error("Erro ao deletar perfil", error);
+        console.error("Error when deleting profile", error);
       }
     }
+  };
+
+  const enablePasswordEdit = () => {
+    setIsPasswordEditable(true);
   };
 
   if (loading) return <p>Carregando...</p>;
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto", padding: "20px" }}>
-      <h2>Editar Perfil</h2>
-      <form onSubmit={handleUpdate}>
-        <div>
-          <label>Nome:</label>
-          <input
-            type="text"
-            name="name"
-            value={user.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Senha:</label>
-          <input
-            type="password"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Salvar Alterações</button>
-      </form>
-      <button onClick={handleDelete}>Deletar Perfil</button>
+    <div className="useProfileContainer">
+      <h2>Edit Profile</h2>
+      <Button onClick={handleDelete}>Delete profile</Button>
+      <Form onSubmit={handleUpdate}>
+        <Input
+          label={"Name"}
+          type="text"
+          name="name"
+          value={user.name}
+          onChange={handleChange}
+        />
+        <Input
+          label={"Email"}
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+        />
+        <Input
+          label={"Password"}
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleChange}
+          disabled={!isPasswordEditable}
+        />
+        {!isPasswordEditable && (
+          <Button type="button" onClick={enablePasswordEdit}>
+            Alterar senha
+          </Button>
+        )}
+        <Button type="submit">Save updates</Button>
+      </Form>
     </div>
   );
 };

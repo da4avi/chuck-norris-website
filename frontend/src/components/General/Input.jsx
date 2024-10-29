@@ -7,14 +7,18 @@ export default function Input({
   label,
   onChange,
   required,
-  type = "text",
+  type,
+  placeholder,
   width,
+  disabled = false,
 }) {
   return (
     <>
       <label htmlFor={name}>{label}</label>
       <input
+        disabled={disabled}
         type={type}
+        placeholder={placeholder}
         name={name}
         value={value}
         className={` styledInput ${className}`}

@@ -26,14 +26,8 @@
         padding-top: 16px;
 }
 
-.register button {
-    background-color: #2c2323;
-    color: #fff;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-}
-
-.reg button:hover {
-    background-color: #161212;
-}
+@media (max-width: 768px) {
+    .register {
+      padding-top: 100px;
+    }
+  }
