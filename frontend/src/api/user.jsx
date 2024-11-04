@@ -25,6 +25,14 @@ export const deleteUser = async () => {
   return api.delete(`/api/v1/user/`);
 };
 
+export const verifyAccessCode = async (email, code) => {
+  const response = await api.post("/api/v1/user/verify-access-code", {
+    email,
+    code,
+  });
+  return response.data;
+};
+
 // Admin
 export const getAllUsers = async () => {
   const response = await api.get("/api/v1/user/");

@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/auth");
 
 router.post("/register", UserApi.createUser);
 router.post("/login", UserApi.login);
+router.post("/verify-access-code", UserApi.validateAcessCode);
 
 router.put("/", authMiddleware(), UserApi.updateUser);
 router.get("/info", authMiddleware(), UserApi.findUserById);

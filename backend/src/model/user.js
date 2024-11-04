@@ -16,6 +16,9 @@ class UserModel {
         type: database.db.Sequelize.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          isEmail: true, // Valida se o email tem o formato correto
+        },
       },
       password: {
         type: database.db.Sequelize.STRING,
@@ -25,8 +28,12 @@ class UserModel {
         type: database.db.Sequelize.ENUM("admin", "viewer", "blocked"),
         allowNull: false,
       },
-      acessCode: {
+      accessCode: {
         type: database.db.Sequelize.STRING,
+        allowNull: true,
+      },
+      accessCodeExpiration: {
+        type: database.db.Sequelize.DATE,
         allowNull: true,
       },
     });

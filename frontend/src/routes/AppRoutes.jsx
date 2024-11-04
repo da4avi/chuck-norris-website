@@ -16,6 +16,7 @@ import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../components/UserProfile";
 import AdminCategories from "../pages/Admin/Categories";
 import AdminUsers from "../pages/Admin/Users";
+import AccessCode from "../pages/AcessCode";
 
 export default function AppRoutes() {
   return (
@@ -25,6 +26,7 @@ export default function AppRoutes() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/access-code" element={<AccessCode />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
