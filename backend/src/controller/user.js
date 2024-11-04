@@ -149,9 +149,12 @@ class UserController {
     const msg = {
       to: email,
       from: "chucknorriswebsiteapi@gmail.com",
-      subject: "Your Access Code | Chuck Norris",
-      text: `Your access code is: ${accessCode}`,
-      html: `<p>Your access code is: <strong>${accessCode}</strong></p>`,
+      subject: "Seu Código de Acesso | Chuck Norris",
+      text: `Parabéns! Você foi escolhido para uma missão aprovada por Chuck Norris: verifique este código para ganhar acesso. Seu código de acesso é: ${accessCode}. Lembre-se, ao verificar o código, o código te respeita.`,
+      html: `<p>Parabéns! Você foi escolhido para uma missão aprovada por Chuck Norris: verifique este código para ganhar acesso.</p>
+             <p>Seu código de acesso é: <strong>${accessCode}</strong></p>
+             <p>Lembre-se, ao verificar o código, o código te respeita.</p> <br>
+             <p>E caso tenha dúvidas, lembre-se: Chuck Norris nunca teve.</p>`,
     };
 
     try {
