@@ -1,15 +1,24 @@
+/* eslint-disable react/prop-types */
+import "./styles/button.css";
 export default function Button({
-    name,
-    value,
-    className,
-    children,
-    type,
-    onClick,
-    disabled
+  name,
+  value,
+  className,
+  children,
+  type,
+  onClick,
+  disabled,
 }) {
-    return (
-        <button disabled={disabled} name={name} value={value} className={className} type={type} onClick={onClick}>
-            {children}
-        </button>
-    )
+  return (
+    <button
+      disabled={disabled}
+      name={name}
+      value={value}
+      className={` styledButton ${className}`}
+      type={type || "submit"}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 }

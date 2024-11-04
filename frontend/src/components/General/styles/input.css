@@ -1,0 +1,39 @@
+.styledInput {
+  padding: 12px 15px;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+
+.styledInput:focus {
+  border-color: #4070f4;
+  box-shadow: 0 0 5px rgba(64, 112, 244, 0.5);
+}
+
+.styledInput:hover {
+  border-color: #999;
+}
+
+.styledInput::placeholder {
+  color: #aaa;
+  opacity: 1;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input-container button svg {
+  font-size: 17px;
+}
+.input-container button {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
+}

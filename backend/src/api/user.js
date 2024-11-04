@@ -28,9 +28,10 @@ class UserApi {
   }
 
   async updateUser(req, res) {
-    const { id } = req.params || req.user;
+    const id = req.params.id || req.user.id;
     const { name, email, password } = req.body;
 
+    console.log(id, name, email, password);
     try {
       const user = await UserController.update(id, name, email, password);
       return res.status(200).send(user);
@@ -63,7 +64,19 @@ class UserApi {
     } catch (e) {
       return res
         .status(400)
-        .send({ error: `Error deleting user: ${e.message}` });
+        .send({ error: `Error to block user: ${e.message}` });
+    }
+  }
+  async unlockUser(req, res) {
+    try {
+      const { id } = req.params;
+
+      await UserController.block(Number(id));
+      return res.status(200).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error to unlock user: ${e.message}` });
     }
   }
 
