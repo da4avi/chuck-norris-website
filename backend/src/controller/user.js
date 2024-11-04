@@ -4,60 +4,40 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const senderEmail = process.env.SENDER_EMAIL;
+const apiKeySg = process.env.SENDGRID_API_KEY;
+sgMail.setApiKey(apiKeySg);
 
 const SECRET_KEY = process.env.SECRET_KEY || "development";
 const SALT_VALUE = 10;
+const ACCESS_CODE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
+const SENDER_EMAIL = "matheusmviana@outlook.com.br";
 
 class UserController {
   async create(name, email, password, role) {
-    if (!name || !email || !password) {
+    if (!name || !email || !password)
       throw new Error("Name, email, and password are required");
-    }
 
     const hashedPassword = await bcrypt.hash(password, SALT_VALUE);
-
     try {
-      const userValue = await user.create({
-        name,
-        email,
-        password: hashedPassword,
-        role,
-      });
-      return userValue;
+      return await user.create({ name, email, password: hashedPassword, role });
     } catch (error) {
-      if (error.parent?.code === "ER_DUP_ENTRY") {
+      if (error.parent?.code === "ER_DUP_ENTRY")
         throw new Error("Email already exists");
-      }
       throw new Error(error.message || "Error creating user");
     }
   }
 
-  async createAccessCode(code, email) {
-    if (!code) throw new Error("Code is required");
-    if (!email) throw new Error("Email is required");
+  async createAccessCode(email, code) {
+    if (!code || !email) throw new Error("Code and email are required");
 
-    const expirationTime = new Date(Date.now() + 5 * 60000);
+    const expirationTime = new Date(Date.now() + ACCESS_CODE_EXPIRATION_TIME);
+    const [updated] = await user.update(
+      { accessCode: code, accessCodeExpiration: expirationTime },
+      { where: { email } }
+    );
 
-    try {
-      const updated = await user.update(
-        {
-          accessCode: code,
-          accessCodeExpiration: expirationTime,
-        },
-        {
-          where: { email: email },
-        }
-      );
-
-      if (updated === 0) throw new Error("User not found");
-
-      return { success: true, message: "Access code created successfully" };
-    } catch (error) {
-      throw new Error(error.message || "Error creating access code");
-    }
+    if (updated === 0) throw new Error("User not found");
+    return { success: true, message: "Access code created successfully" };
   }
 
   async findUser(id) {
@@ -130,9 +110,7 @@ class UserController {
   }
 
   async deleteJokesByUserId(userId) {
-    await jokeModel.destroy({
-      where: { userId },
-    });
+    await jokeModel.destroy({ where: { userId } });
   }
 
   async find() {
@@ -143,15 +121,16 @@ class UserController {
     if (!email || !code) throw new Error("Email and code are required");
 
     const userValue = await user.findOne({
-      where: { email: email },
+      where: { email, accessCode: code },
     });
-
-    if (!userValue) {
-      throw new Error("Invalid access code");
+    if (!userValue || new Date() > userValue.accessCodeExpiration) {
+      throw new Error("Invalid or expired access code");
     }
 
-    await user.update({ accessCode: null }, { where: { email } });
-
+    await user.update(
+      { accessCode: null, accessCodeExpiration: null },
+      { where: { email } }
+    );
     return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, {
       expiresIn: "1h",
     });
@@ -161,8 +140,6 @@ class UserController {
     if (!email || !password) throw new Error("Email and password are required");
 
     const userValue = await this.findUserByEmail(email);
-    if (!userValue) throw new Error("Invalid email or password");
-
     const validPassword = await bcrypt.compare(password, userValue.password);
     if (!validPassword) throw new Error("Invalid email or password");
 
@@ -171,7 +148,7 @@ class UserController {
 
     const msg = {
       to: email,
-      from: senderEmail,
+      from: "chucknorriswebsiteapi@gmail.com",
       subject: "Your Access Code | Chuck Norris",
       text: `Your access code is: ${accessCode}`,
       html: `<p>Your access code is: <strong>${accessCode}</strong></p>`,
@@ -181,7 +158,10 @@ class UserController {
       await sgMail.send(msg);
       return { message: "Access code sent to your email" };
     } catch (error) {
-      console.error("Error sending email: ", error);
+      console.error(
+        "Error sending email:",
+        error.response ? error.response.body : error
+      );
       throw new Error("Failed to send access code");
     }
   }
