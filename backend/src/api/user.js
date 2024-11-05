@@ -1,3 +1,4 @@
+const { response } = require("express");
 const UserController = require("../controller/user");
 
 class UserApi {
@@ -11,6 +12,17 @@ class UserApi {
       return res
         .status(400)
         .send({ error: `Error creating user: ${e.message}` });
+    }
+  }
+
+  async validateAcessCode(req, res) {
+    const { email, code } = req.body;
+
+    try {
+      const token = await UserController.verifyAccessCode(email, code);
+      res.status(200).json({ message: "Access code verified", token });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
   }
 
@@ -31,7 +43,7 @@ class UserApi {
     const id = req.params.id || req.user.id;
     const { name, email, password } = req.body;
 
-    console.log(id,name,email,password)
+    console.log(id, name, email, password);
     try {
       const user = await UserController.update(id, name, email, password);
       return res.status(200).send(user);
@@ -64,7 +76,19 @@ class UserApi {
     } catch (e) {
       return res
         .status(400)
-        .send({ error: `Error deleting user: ${e.message}` });
+        .send({ error: `Error to block user: ${e.message}` });
+    }
+  }
+  async unlockUser(req, res) {
+    try {
+      const { id } = req.params;
+
+      await UserController.block(Number(id));
+      return res.status(200).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ error: `Error to unlock user: ${e.message}` });
     }
   }
 
@@ -94,8 +118,8 @@ class UserApi {
     const { email, password } = req.body;
 
     try {
-      const token = await UserController.login(email, password);
-      return res.status(200).send({ token });
+      const response = await UserController.login(email, password);
+      return res.status(200).send(response.message);
     } catch (e) {
       return res.status(400).send({ error: `Error logging: ${e.message}` });
     }

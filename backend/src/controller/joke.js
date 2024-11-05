@@ -67,13 +67,17 @@ class JokeController {
     return jokeValue;
   }
 
-  async delete(id) {
+  async deleteCategory(id) {
     if (!id) {
       throw new Error("Id is required");
     }
 
-    const jokeValue = await this.findJoke(id);
-    await jokeValue.destroy();
+    const category = await categoryModel.findByPk(id);
+    if (!category) {
+      throw new Error("Category not found");
+    }
+
+    await category.destroy();
   }
 
   async find(userId, userToken) {

@@ -28,7 +28,7 @@ export default function Register() {
 
       if (!response.error) {
         setSuccessMessage(t("registrationSuccess"));
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate("/login"), 500);
       } else {
         setErrorMessage(response.error || t("registrationError"));
       }

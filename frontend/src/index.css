@@ -8,12 +8,14 @@
 
 .success-message {
   color: green;
+  max-width: 200px;
   font-weight: 700;
 }
 
 .error-message {
   color: rgb(209, 20, 20);
   font-weight: 700;
+  max-width: 200px;
 }
 
 .actionsButtons {

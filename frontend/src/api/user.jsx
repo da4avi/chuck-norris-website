@@ -25,9 +25,44 @@ export const deleteUser = async () => {
   return api.delete(`/api/v1/user/`);
 };
 
-// export const getAllUsers = async () => {}; //admin
-// export const getUserById = async (id) => {}; //admin
-// export const updateUserById = async (user, id) => {}; //admin
-// export const deleteUserById = async (id) => {}; //admin
-// export const blockUser = async (id) => {}; //admin
-// export const createAdmin = async (admin) => {}; //admin
+export const verifyAccessCode = async (email, code) => {
+  const response = await api.post("/api/v1/user/verify-access-code", {
+    email,
+    code,
+  });
+  return response.data;
+};
+
+// Admin
+export const getAllUsers = async () => {
+  const response = await api.get("/api/v1/user/");
+  return response.data;
+};
+
+export const getUserById = async (id) => {
+  const response = await api.get(`/api/v1/user/${id}`);
+  return response.data;
+};
+
+export const updateUserById = async (user, id) => {
+  const response = await api.put(`/api/v1/user/${id}`, user);
+  return response.data;
+};
+export const deleteUserById = async (id) => {
+  const response = await api.delete(`/api/v1/user/${id}`);
+  return response.data;
+};
+
+export const blockUser = async (id) => {
+  const response = await api.patch(`/api/v1/user/block/${id}`);
+  return response.data;
+};
+export const unlockUser = async (id) => {
+  const response = await api.patch(`/api/v1/user/unlock/${id}`);
+  return response.data;
+};
+
+export const createAdmin = async (admin) => {
+  const response = await api.get(`/api/v1/user/admin`, admin);
+  return response.data;
+};

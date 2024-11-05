@@ -25,14 +25,11 @@ export default function Login() {
     try {
       const response = await loginUser(email, password);
 
-      if (response.error) {
-        setErrorMessage(t(response.error));
-      } else if (response.token) {
-        login(response.token);
-        navigate("/");
-      }
+      login(response.token);
+
+      navigate("/access-code", { state: { email } });
     } catch (err) {
-      setErrorMessage(t("Email or password is invalid"));
+      setErrorMessage(t("An error occurred. Please try again."));
     } finally {
       setLoading(false);
     }
@@ -45,13 +42,13 @@ export default function Login() {
         <Form onSubmit={handleSubmit}>
           <label htmlFor="email">{t("Email")}: </label>
           <Input
-          placeholder={"Email"}
+            placeholder={"Email"}
             required
             type="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label htmlFor="password">{t("password")}</label>
+          <label htmlFor="password">{t("Password")}</label>
           <Input
             placeholder={"Password"}
             required
@@ -59,6 +56,7 @@ export default function Login() {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <div className="actionsButtons">
             <Button type="submit" disabled={loading}>
               {loading ? t("Loading") : t("Login")}

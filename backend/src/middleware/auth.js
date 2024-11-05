@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.SECRET_KEY || "development";
 const user = require("../controller/user");
+require("dotenv").config();
 
 function authMiddleware(roles = []) {
   return async (req, res, next) => {

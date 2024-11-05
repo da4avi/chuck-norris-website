@@ -10,9 +10,10 @@ const {
 const { insertAdminIfNotExist } = require("./src/seeders/InsertAdmin");
 const { insertJokesIfNotExist } = require("./src/seeders/insertJokes");
 const app = express();
+require("dotenv").config();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/joke", jokeRouter);
 app.use("/api/v1/category", categoryRouter);

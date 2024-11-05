@@ -38,7 +38,7 @@ export default function ListAllJokes() {
   };
 
   const handleEdit = (jokeId) => {
-    setEditingJokeId(editingJokeId === jokeId ? null : jokeId);
+    setEditingJokeId((prevId) => (prevId === jokeId ? null : jokeId));
   };
 
   const closeEditForm = () => {
@@ -56,17 +56,15 @@ export default function ListAllJokes() {
     <div className="jokesListContainer">
       <ul>
         {jokes.length === 0 ? (
-          <p>You haven&apos;t created any jokes yet</p>
+          <p>You haven't created any jokes yet</p>
         ) : (
           jokes.map((joke) => (
             <li key={joke.id}>
               <div className="actionContainer">
                 <div className="showJokeContainer">
-                  <div>
-                    <div>
-                      <strong>{joke.category}</strong>
-                    </div>
-                    <div>{joke.value}</div>
+                  <div className="jokeContent">
+                    <strong>{joke.category}</strong>
+                    <p>{String(joke.value)}</p>
                   </div>
                   <div className="actionsButton">
                     <button

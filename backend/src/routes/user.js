@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/auth");
 
 router.post("/register", UserApi.createUser);
 router.post("/login", UserApi.login);
+router.post("/verify-access-code", UserApi.validateAcessCode);
 
 router.put("/", authMiddleware(), UserApi.updateUser);
 router.get("/info", authMiddleware(), UserApi.findUserById);
@@ -15,6 +16,7 @@ router.get("/:id", authMiddleware(["admin"]), UserApi.findUserById);
 router.put("/:id", authMiddleware(["admin"]), UserApi.updateUser);
 router.delete("/:id", authMiddleware(["admin"]), UserApi.deleteUser);
 router.patch("/block/:id", authMiddleware(["admin"]), UserApi.blockUser);
+router.patch("/unlock/:id", authMiddleware(["admin"]), UserApi.unlockUser);
 router.post("/admin", authMiddleware(["admin"]), UserApi.createAdmin);
 
 module.exports = router;
