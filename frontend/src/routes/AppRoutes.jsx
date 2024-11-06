@@ -20,7 +20,7 @@ import AccessCode from "../pages/AcessCode";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <>
       <AuthProvider>
         <Header />
         <Routes>
@@ -46,6 +46,6 @@ export default function AppRoutes() {
         </Routes>
         <Footer />
       </AuthProvider>
-    </BrowserRouter>
+    </>
   );
 }
