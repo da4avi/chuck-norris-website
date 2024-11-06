@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const admin = {
   name: "Admin",
-  email: "admin@chucknorriswebsite.com",
+  email: "chucknorriswebsiteapi@gmail.com",
   password: process.env.ADMIN_PASSWORD || "defaultpassword123",
   role: "admin",
 };
