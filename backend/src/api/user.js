@@ -83,7 +83,7 @@ class UserApi {
     try {
       const { id } = req.params;
 
-      await UserController.block(Number(id));
+      await UserController.unlock(Number(id));
       return res.status(200).send();
     } catch (e) {
       return res
