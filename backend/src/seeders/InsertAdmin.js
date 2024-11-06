@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const admin = {
-  name: "Admin",
-  email: "chucknorriswebsiteapi@gmail.com",
-  password: process.env.ADMIN_PASSWORD || "defaultpassword123",
+  name: process.env.ADMIN_NAME,
+  email: process.env.ADMIN_EMAIL,
+  password: process.env.ADMIN_PASSWORD,
   role: "admin",
 };
 
