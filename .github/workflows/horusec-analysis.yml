@@ -1,0 +1,26 @@
+name: SecurityPipeline
+
+on: [push]
+
+jobs:
+  horusec-security:
+    name: Horusec Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install Horusec
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
+
+      - name: Run Horusec Analysis on Backend
+        run: |
+          horusec start -p="./backend" -e="true" --log-level="info" --ignore="node_modules,vendor,.git"
+
+      - name: Run Horusec Analysis on Frontend
+        run: |
+          horusec start -p="./frontend" -e="true" --log-level="info" --ignore="node_modules,dist,.git"
