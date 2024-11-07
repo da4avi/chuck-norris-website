@@ -1,8 +1,45 @@
-# React + Vite
+# Chuck Norris Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# How to run the Frontend:
 
-Currently, two official plugins are available:
+```bash
+  1. Step:
+  Clone this repository
+```
+```bash
+  2. Step:
+  Open the terminal and put the command: cd frontend
+```
+```bash
+  3. Step:
+  Install all dependencies: npm i
+```
+```bash
+  4. Step:
+  Run the application: npm run dev
+```
+```bash
+  5. Step:
+  Paste this link in your browser:
+  https://localhost:5173
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# How to run the Backend:
+
+```bash
+  1. First set the environment variables:
+  - Create a .env file in the root
+  - Paste there: SECRET_KEY="your_secret_key"
+```
+```bash
+  2. Step:
+  Open the terminal and put the command: cd backend
+```
+```bash
+  3. Step:
+  Install all dependencies: npm i
+```
+```bash
+  4. Step:
+  Run the application: npm run dev
+```

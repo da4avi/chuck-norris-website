@@ -1,0 +1,7 @@
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  align-self: start;
+  min-height: 100vh;
+  padding-top: 100px;
+}
