@@ -1,4 +1,5 @@
 import { Link, Route, Routes } from "react-router-dom";
+import "./styles.css"
 
 export default function Admin() {
   return (

@@ -10,6 +10,7 @@ import {
 import Input from "../../../components/General/Input";
 import Button from "../../../components/General/Button";
 import Form from "../../../components/General/Form";
+import "./styles.css";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -91,35 +92,61 @@ export default function AdminUsers() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  if (loading) return <p>Loading users...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="loading-message">Loading users...</p>;
+  if (error) return <p className="error-message">{error}</p>;
 
   return (
     <div className="panel-container">
-      <h1>Admin - Usuários</h1>
-      <ul className="users-list-container">
-        {users.map((user) => (
-          <li className="user-actions-row" key={user.id}>
-            <strong>{user.name}</strong>
-            <p>{user.email}</p>
-            <div className="actions-buttons">
-              <Button onClick={() => handleEditUser(user.id)}>Editar</Button>
-              <Button onClick={() => handleDeleteUser(user.id)}>Deletar</Button>
+      <table>
+        <caption>
+          <h1>Admin - Usuários</h1>
+        </caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>
+                  <div className="actions-buttons">
+                    <Button
+                      className="edit"
+                      onClick={() => handleEditUser(user.id)}
+                    >
+                      Editar
+                    </Button>
+                    <Button
+                      className="delete"
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      Deletar
+                    </Button>
 
-              <Button
-                onClick={() =>
-                  handleToggleBlockUser(
-                    user.id,
-                    user.role === "blocked" ? true : false
-                  )
-                }
-              >
-                {user.role === "blocked" ? "Unban" : "Ban"}
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
+                    <Button
+                      className={user.role === "blocked" ? "unblock" : "block"}
+                      onClick={() =>
+                        handleToggleBlockUser(
+                          user.id,
+                          user.role === "blocked" ? true : false
+                        )
+                      }
+                    >
+                      {user.role === "blocked" ? "Unban" : "Ban"}
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tr>
+        </tbody>
+      </table>
       {isEditing && (
         <Form className="edit-form">
           <h2>Editar Usuário</h2>
@@ -144,8 +171,12 @@ export default function AdminUsers() {
             onChange={handleChange}
             placeholder="Nova Senha"
           />
-          <Button onClick={handleUpdateUser}>Atualizar</Button>
-          <Button onClick={() => setIsEditing(false)}>Cancelar</Button>
+          <Button className="update" onClick={handleUpdateUser}>
+            Atualizar
+          </Button>
+          <Button className="cancel" onClick={() => setIsEditing(false)}>
+            Cancelar
+          </Button>
         </Form>
       )}
     </div>
