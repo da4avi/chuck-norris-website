@@ -1,5 +1,5 @@
-const joke = require("../model/joke");
 const categoryModel = require("../model/category");
+const joke = require("../model/joke");
 
 class JokeController {
   async create(value, category, userId) {
@@ -65,6 +65,19 @@ class JokeController {
     await jokeValue.save();
 
     return jokeValue;
+  }
+
+  async delete(id) {
+    if (!id) {
+      throw new Error("Id is required");
+    }
+
+    const jokeValue = await joke.findByPk(id);
+    if (!jokeValue) {
+      throw new Error("Joke not found");
+    }
+
+    await jokeValue.destroy();
   }
 
   async deleteCategory(id) {
