@@ -68,7 +68,17 @@ const UserProfile = () => {
     setIsPasswordEditable(true);
   };
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading)
+    return (
+      <div className="loading-full-page-container">
+        <img
+          src="public/loading.webp"
+          className="loading-full-page"
+          width={40}
+          height={"auto"}
+        />
+      </div>
+    );
 
   return (
     <div className="useProfileContainer">

@@ -7,6 +7,28 @@
   align-items: center;
 }
 
+.loading-full-page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.loading-full-page {
+  animation: rotate 1s ease-in-out;
+  object-fit: cover;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .success-message {
   color: green;
   max-width: 200px;
@@ -20,8 +42,7 @@
   justify-content: center;
   color: rgb(223, 12, 12);
   font-weight: 700;
-  font-size: 1.5rem;
-  height: 90vh;
+  font-size: 1rem;
 }
 .loading-message {
   background-color: rgba(255, 255, 255, 0.863);
@@ -30,7 +51,7 @@
   justify-content: center;
   color: rgb(39, 39, 39);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1rem;
   height: 90vh;
 }
 

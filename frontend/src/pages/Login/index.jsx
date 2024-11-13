@@ -27,7 +27,7 @@ export default function Login() {
 
       login(response.token);
 
-      navigate("/access-code", { state: { email } });
+      navigate("/access-code", { state: { email, password } });
     } catch (err) {
       setErrorMessage(t("An error occurred. Please try again."));
     } finally {

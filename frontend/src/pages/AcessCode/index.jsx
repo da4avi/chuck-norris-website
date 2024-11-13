@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { verifyAccessCode } from "../../api/user"; // Função para verificar o código
+import { loginUser, verifyAccessCode } from "../../api/user";
 import { AuthContext } from "../../auth/Context";
 import { useTranslation } from "react-i18next";
 import Form from "../../components/General/Form";
@@ -13,10 +13,36 @@ export default function AccessCode() {
   const navigate = useNavigate();
   const { t } = useTranslation("global");
   const location = useLocation();
-  const email = location.state?.email; // Get email from state
+  const email = location.state?.email;
+  const password = location.state?.password;
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [countdown, setCountdown] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    if (countdown === null || countdown === 0) {
+      setIsDisabled(false);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  const handleResendCode = async () => {
+    setCountdown(60);
+    setIsDisabled(true);
+    try {
+      const response = await loginUser(email, password);
+    } catch (err) {
+      setErrorMessage("Error:", err.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,10 +78,18 @@ export default function AccessCode() {
             id="access-code"
             onChange={(e) => setCode(e.target.value)}
           />
-          <div className="actionsButtons">
+          <div className="actionsButtonsAcessButton">
             <Button type="submit" disabled={loading}>
               {loading ? t("Loading") : t("Verify Code")}
             </Button>
+            <a
+              onClick={!isDisabled ? handleResendCode : undefined}
+              className={isDisabled ? "disabled" : ""}
+            >
+              {isDisabled
+                ? `${t("Send code again in")} ${countdown}s`
+                : t("Send code again")}
+            </a>
           </div>
         </Form>
         {errorMessage && (

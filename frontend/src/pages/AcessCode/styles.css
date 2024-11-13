@@ -1,0 +1,28 @@
+.access-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: white;
+}
+
+.actionsButtonsAcessButton a {
+  margin-left: 10px;
+  color: #4070f4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.actionsButtonsAcessButton a.disabled {
+  color: gray;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.actionsButtonsAcessButton {
+  align-items: center;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
