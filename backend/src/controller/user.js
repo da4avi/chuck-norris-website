@@ -9,8 +9,7 @@ sgMail.setApiKey(apiKeySg);
 
 const SECRET_KEY = process.env.SECRET_KEY || "development";
 const SALT_VALUE = 10;
-const ACCESS_CODE_EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutes
-const SENDER_EMAIL = "matheusmviana@outlook.com.br";
+const ACCESS_CODE_EXPIRATION_TIME = 5 * 60 * 1000;
 
 class UserController {
   async create(name, email, password, role) {

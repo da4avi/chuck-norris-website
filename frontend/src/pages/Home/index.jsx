@@ -50,7 +50,11 @@ export default function Home() {
         ) : (
           <p className="p">{i18n.language === "en" ? joke : jokeTranslated}</p>
         )}
-        {error && <p className="loading-message">Loading</p>}
+        {error && (
+          <p className="loading-message">
+            Error to get joke, await 50 seconds. And try again
+          </p>
+        )}
         <br />
         <button onClick={getRandomJokes} type="button">
           {t("newjoke")}
