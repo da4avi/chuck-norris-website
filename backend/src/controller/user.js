@@ -1,71 +1,89 @@
+require("dotenv").config();
+const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
 const user = require("../model/user");
-const jokeModel = require("../model/joke");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sgMail = require("@sendgrid/mail");
-require("dotenv").config();
-const apiKeySg = process.env.SENDGRID_API_KEY;
-sgMail.setApiKey(apiKeySg);
+const AppError = require("../errors/AppError");
 
-const SECRET_KEY = process.env.SECRET_KEY || "development";
-const SALT_VALUE = 10;
-const ACCESS_CODE_EXPIRATION_TIME = 5 * 60 * 1000;
+const mailerSend = new MailerSend({
+  apiKey: process.env.API_KEY,
+});
+
+const sentFrom = new Sender(
+  "MS_fmz61H@trial-351ndgwemo5gzqx8.mlsender.net",
+  "Chuck Norris API"
+);
 
 class UserController {
   async create(name, email, password, role) {
-    if (!name || !email || !password)
-      throw new Error("Name, email, and password are required");
+    if (!name || !email || !password) {
+      throw new AppError("Name, email, and password are required.", 400);
+    }
 
-    const hashedPassword = await bcrypt.hash(password, SALT_VALUE);
+    const hashedPassword = await bcrypt.hash(
+      password,
+      Number(process.env.SALT_VALUE)
+    );
+
     try {
       return await user.create({ name, email, password: hashedPassword, role });
     } catch (error) {
-      if (error.parent?.code === "ER_DUP_ENTRY")
-        throw new Error("Email already exists");
-      throw new Error(error.message || "Error creating user");
+      if (error.parent?.code === "23505") {
+        throw new AppError("This email is already registered.", 409);
+      }
+      if (error.errors?.[0]?.validatorKey === "isEmail") {
+        throw new AppError("The provided email is not valid.", 400);
+      }
+      throw new AppError(
+        "An error occurred while creating the user. Please try again.",
+        500
+      );
     }
   }
 
   async createAccessCode(email, code) {
-    if (!code || !email) throw new Error("Code and email are required");
+    if (!code || !email) throw new AppError("Code and email are required", 400);
 
-    const expirationTime = new Date(Date.now() + ACCESS_CODE_EXPIRATION_TIME);
+    const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
     const [updated] = await user.update(
       { accessCode: code, accessCodeExpiration: expirationTime },
       { where: { email } }
     );
 
-    if (updated === 0) throw new Error("User not found");
+    if (updated === 0) throw new AppError("User not found", 404);
     return { success: true, message: "Access code created successfully" };
   }
 
   async findUser(id) {
-    if (!id) throw new Error("Id is required");
+    if (!id) throw new AppError("Id is required", 400);
 
     const userValue = await user.findByPk(id);
-    if (!userValue) throw new Error("User not found");
+    if (!userValue) throw new AppError("User not found", 404);
 
     return userValue;
   }
 
   async findUserByEmail(email) {
-    if (!email) throw new Error("Email is required");
+    if (!email) throw new AppError("Email is required", 400);
 
     const userValue = await user.findOne({ where: { email } });
-    if (!userValue) throw new Error("User not found");
+    if (!userValue) throw new AppError("User not found", 404);
 
     return userValue;
   }
 
   async update(id, name, email, password) {
     if (!id || !name || !email || !password) {
-      throw new Error("Id, name, email, and password are required");
+      throw new AppError("Id, name, email, and password are required", 400);
     }
 
     const userValue = await this.findUser(id);
-    if (!userValue) throw new Error("Internal server error.");
+    if (!userValue) throw new AppError("Internal server error.", 500);
 
-    const hashedPassword = await bcrypt.hash(password, SALT_VALUE);
+    const hashedPassword = await bcrypt.hash(
+      password,
+      Number(process.env.SALT_VALUE)
+    );
     userValue.name = name;
     userValue.email = email;
     userValue.password = hashedPassword;
@@ -75,10 +93,10 @@ class UserController {
   }
 
   async block(id) {
-    if (!id) throw new Error("Id is required");
+    if (!id) throw new AppError("Id is required", 400);
 
     const userValue = await this.findUser(id);
-    if (!userValue) throw new Error("User not found");
+    if (!userValue) throw new AppError("User not found", 404);
 
     userValue.role = "blocked";
     await userValue.save();
@@ -87,10 +105,10 @@ class UserController {
   }
 
   async unlock(id) {
-    if (!id) throw new Error("Id is required");
+    if (!id) throw new AppError("Id is required", 400);
 
     const userValue = await this.findUser(id);
-    if (!userValue) throw new Error("User not found");
+    if (!userValue) throw new AppError("User not found", 404);
 
     userValue.role = "viewer";
     await userValue.save();
@@ -99,10 +117,10 @@ class UserController {
   }
 
   async delete(id) {
-    if (!id) throw new Error("Id is required");
+    if (!id) throw new AppError("Id is required", 400);
 
     const userValue = await this.findUser(id);
-    if (!userValue) throw new Error("User not found");
+    if (!userValue) throw new AppError("User not found", 404);
 
     await this.deleteJokesByUserId(id);
     await userValue.destroy();
@@ -117,54 +135,66 @@ class UserController {
   }
 
   async verifyAccessCode(email, code) {
-    if (!email || !code) throw new Error("Email and code are required");
+    if (!email || !code) throw new AppError("Email and code are required", 400);
 
     const userValue = await user.findOne({
-      where: { email, accessCode: code },
+      where: { email: email.toLowerCase(), accessCode: code },
     });
-    if (!userValue || new Date() > userValue.accessCodeExpiration) {
-      throw new Error("Invalid or expired access code");
+
+    if (!userValue) {
+      throw new AppError("Invalid or expired access code", 401);
+    }
+
+    if (new Date() > userValue.accessCodeExpiration) {
+      throw new AppError("Invalid or expired access code", 401);
     }
 
     await user.update(
       { accessCode: null, accessCodeExpiration: null },
-      { where: { email } }
+      { where: { email: email.toLowerCase() } }
     );
-    return jwt.sign({ id: userValue.id, role: userValue.role }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
+
+    return jwt.sign(
+      { id: userValue.id, role: userValue.role },
+      process.env.SECRET_KEY,
+      { expiresIn: "1h" }
+    );
   }
 
   async login(email, password) {
-    if (!email || !password) throw new Error("Email and password are required");
+    if (!email || !password) {
+      throw new AppError("Email and password are required", 400);
+    }
 
     const userValue = await this.findUserByEmail(email);
     const validPassword = await bcrypt.compare(password, userValue.password);
-    if (!validPassword) throw new Error("Invalid email or password");
+    if (!validPassword) throw new AppError("Invalid email or password", 401);
 
     const accessCode = Math.floor(100000 + Math.random() * 900000);
     await this.createAccessCode(email, accessCode);
 
-    const msg = {
-      to: email,
-      from: "chucknorriswebsiteapi@gmail.com",
-      subject: "Seu Código de Acesso | Chuck Norris",
-      text: `Parabéns! Você foi escolhido para uma missão aprovada por Chuck Norris: verifique este código para ganhar acesso. Seu código de acesso é: ${accessCode}. Lembre-se, ao verificar o código, o código te respeita.`,
-      html: `<p>Parabéns! Você foi escolhido para uma missão aprovada por Chuck Norris: verifique este código para ganhar acesso.</p>
-             <p>Seu código de acesso é: <strong>${accessCode}</strong></p>
-             <p>Lembre-se, ao verificar o código, o código te respeita.</p> <br>
-             <p>E caso tenha dúvidas, lembre-se: Chuck Norris nunca teve.</p>`,
-    };
+    const recipients = [new Recipient(email, userValue.name)];
+    const emailParams = new EmailParams()
+      .setFrom(sentFrom)
+      .setTo(recipients)
+      .setReplyTo(sentFrom)
+      .setSubject("Your Access Code | Chuck Norris")
+      .setHtml(
+        `<p>Congratulations! You have been selected for a mission approved by Chuck Norris: verify this code to gain access. Your access code is: <strong>${accessCode}</strong></p>`
+      )
+      .setText(
+        `Congratulations! You have been selected for a mission approved by Chuck Norris: verify this code to gain access. Your access code is: ${accessCode}`
+      );
 
     try {
-      await sgMail.send(msg);
+      await mailerSend.email.send(emailParams);
       return { message: "Access code sent to your email" };
     } catch (error) {
       console.error(
         "Error sending email:",
         error.response ? error.response.body : error
       );
-      throw new Error("Failed to send access code");
+      throw new AppError("Failed to send access code", 500);
     }
   }
 }
