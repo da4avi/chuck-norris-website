@@ -15,7 +15,7 @@
 }
 
 .loading-full-page {
-  animation: rotate 1s ease-in-out;
+  animation: rotate 0.8s ease-in-out infinite;
   object-fit: cover;
   max-width: 40px;
   max-height: 40px;
@@ -29,6 +29,7 @@
     transform: rotate(360deg);
   }
 }
+
 .success-message {
   color: green;
   max-width: 200px;
@@ -50,7 +51,7 @@
   align-items: center;
   justify-content: center;
   color: rgb(39, 39, 39);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1rem;
 }
 

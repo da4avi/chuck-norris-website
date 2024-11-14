@@ -33,7 +33,7 @@ export default function Register() {
         setErrorMessage(response.error || t("registrationError"));
       }
     } catch (error) {
-      setErrorMessage(t("Failed to register user"));
+      setErrorMessage(t("Failed to register user: ", error.message));
     } finally {
       setLoading(false);
     }

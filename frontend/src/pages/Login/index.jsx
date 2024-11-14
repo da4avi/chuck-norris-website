@@ -29,7 +29,7 @@ export default function Login() {
 
       navigate("/access-code", { state: { email, password } });
     } catch (err) {
-      setErrorMessage(t("An error occurred. Please try again."));
+      setErrorMessage(t("An error occurred:", err));
     } finally {
       setLoading(false);
     }
