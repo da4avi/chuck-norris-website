@@ -30,7 +30,7 @@ export default function Register() {
         setSuccessMessage(t("registrationSuccess"));
         setTimeout(() => navigate("/login"), 500);
       } else {
-        setErrorMessage(response.error || t("registrationError"));
+        setErrorMessage(response.error);
       }
     } catch (error) {
       setErrorMessage(t("Failed to register user: ", error.message));

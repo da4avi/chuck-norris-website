@@ -7,14 +7,15 @@ class Database {
   }
 
   init() {
-    this.db = new Sequelize({
-      database: process.env.DATABASE_NAME,
-      password: process.env.DATABASE_PASSWORD,
-      username: process.env.DATABASE_USER,
-      host: process.env.DATABASE_HOST,
-      port: process.env.DATABASE_PORT,
-      dialect: process.env.DATABASE_DIALECT,
+    this.db = new Sequelize(process.env.DATABASE_URL, {
+      dialect: "postgres",
       logging: false,
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     });
   }
 }

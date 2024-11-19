@@ -6,7 +6,13 @@
   flex-direction: column;
   align-items: center;
 }
+a {
+  color: black;
+}
 
+li {
+  list-style: none;
+}
 .loading-full-page-container {
   display: flex;
   align-items: center;

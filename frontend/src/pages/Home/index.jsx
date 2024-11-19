@@ -48,7 +48,9 @@ export default function Home() {
         {loading ? (
           <img className="img-loading" src={icon} height={40} width={40} />
         ) : (
-          <p className="p">{i18n.language === "en" ? joke : jokeTranslated}</p>
+          <p className="p p-joke">
+            {i18n.language === "en" ? joke : jokeTranslated}
+          </p>
         )}
         {error && (
           <p className="loading-message">
@@ -56,7 +58,11 @@ export default function Home() {
           </p>
         )}
         <br />
-        <button onClick={getRandomJokes} type="button">
+        <button
+          className="get-joke-button"
+          onClick={getRandomJokes}
+          type="button"
+        >
           {t("newjoke")}
         </button>
         <br />
