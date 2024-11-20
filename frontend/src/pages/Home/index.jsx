@@ -22,6 +22,7 @@ export default function Home() {
       setJoke(data.value);
       setJokeTranslated(translated);
       setLoading(false);
+      setError(null);
     } catch (error) {
       setError("Error to get a joke", error.message);
     }
