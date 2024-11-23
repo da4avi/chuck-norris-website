@@ -9,8 +9,9 @@ import {
 } from "../../../api/user";
 import Input from "../../../components/General/Input";
 import Button from "../../../components/General/Button";
-import Form from "../../../components/General/Form";
+import Modal from "../../../components/General/Modal"; // Importar o Modal
 import "./styles.css";
+import Loading from "../../../components/General/Loading";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -24,6 +25,7 @@ export default function AdminUsers() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch inicial de usuários
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -38,6 +40,7 @@ export default function AdminUsers() {
     fetchUsers();
   }, []);
 
+  // Deletar usuário
   const handleDeleteUser = async (id) => {
     try {
       await deleteUserById(id);
@@ -47,21 +50,25 @@ export default function AdminUsers() {
     }
   };
 
+  // Bloquear/Desbloquear usuário
   const handleToggleBlockUser = async (id, isBlocked) => {
     try {
       const updatedUser = isBlocked
-        ? await unlockUser(id)
-        : await blockUser(id);
-      setUsers(
-        users.map((user) =>
+        ? await unlockUser(id) // Desbloquear
+        : await blockUser(id); // Bloquear
+
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
           user.id === id ? { ...user, role: updatedUser.role } : user
         )
       );
+      window.location.reload();
     } catch {
       setError("Failed to block/unblock user");
     }
   };
 
+  // Editar usuário
   const handleEditUser = async (id) => {
     try {
       const user = await getUserById(id);
@@ -73,6 +80,7 @@ export default function AdminUsers() {
     }
   };
 
+  // Atualizar usuário
   const handleUpdateUser = async () => {
     try {
       const updatedUser = await updateUserById(formData, selectedUser.id);
@@ -87,19 +95,20 @@ export default function AdminUsers() {
     }
   };
 
+  // Atualizar estado do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  if (loading) return <p className="loading-message">Loading users...</p>;
+  if (loading) return <Loading allPage={true} />;
   if (error) return <p className="error-message">{error}</p>;
 
   return (
     <div className="panel-container">
-      <table>
-        <caption>
-          <h1>Admin - Usuários</h1>
+      <table className="table-users">
+        <caption className="caption">
+          <h1>Admin - Users</h1>
         </caption>
         <thead>
           <tr>
@@ -109,76 +118,79 @@ export default function AdminUsers() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  <div className="actions-buttons">
-                    <Button
-                      className="edit"
-                      onClick={() => handleEditUser(user.id)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      className="delete"
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Deletar
-                    </Button>
-
-                    <Button
-                      className={user.role === "blocked" ? "unblock" : "block"}
-                      onClick={() =>
-                        handleToggleBlockUser(
-                          user.id,
-                          user.role === "blocked" ? true : false
-                        )
-                      }
-                    >
-                      {user.role === "blocked" ? "Unban" : "Ban"}
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tr>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>
+                <div className="actions-container">
+                  <Button
+                    className="button-edit"
+                    onClick={() => handleEditUser(user.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    className="button-delete"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    className={
+                      user.role === "blocked"
+                        ? "button-unblock"
+                        : "button-block"
+                    }
+                    onClick={() =>
+                      handleToggleBlockUser(
+                        user.id,
+                        user.role === "blocked" ? true : false
+                      )
+                    }
+                  >
+                    {user.role === "blocked" ? "Unban" : "Ban"}
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      {isEditing && (
-        <Form className="edit-form">
-          <h2>Editar Usuário</h2>
-          <Input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Nome"
-          />
-          <Input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <Input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Nova Senha"
-          />
-          <Button className="update" onClick={handleUpdateUser}>
-            Atualizar
+
+      {/* Modal para edição */}
+      <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
+        <h2>Edit User</h2>
+        <Input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Nome"
+        />
+        <Input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Email"
+        />
+        <Input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Nova Senha"
+        />
+        <div className="edit-buttons-container">
+          <Button className="button-update" onClick={handleUpdateUser}>
+            Update
           </Button>
-          <Button className="cancel" onClick={() => setIsEditing(false)}>
-            Cancelar
+          <Button className="button-cancel" onClick={() => setIsEditing(false)}>
+            Cancel
           </Button>
-        </Form>
-      )}
+        </div>
+      </Modal>
     </div>
   );
 }

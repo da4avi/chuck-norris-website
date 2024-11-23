@@ -4,29 +4,13 @@ import Button from "../../General/Button";
 import Form from "../../General/Form";
 import Input from "../../General/Input";
 import { createJoke } from "../../../api/joke";
+import { getAllCategories } from "../../../api/category";
 
 export default function AddJoke() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const categories = [
-    "animal",
-    "career",
-    "celebrity",
-    "dev",
-    "fashion",
-    "food",
-    "history",
-    "money",
-    "movie",
-    "music",
-    "science",
-    "sport",
-    "travel",
-  ];
+  const [categories, setCategories] = useState([]);
 
   const [joke, setJoke] = useState({
     category: "Select a category",
@@ -83,49 +67,49 @@ export default function AddJoke() {
     }
   };
 
-  const handleCategorySelect = (category) => {
-    setJoke({ ...joke, category });
-    setDropdownOpen(false);
-  };
-
-  const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
-  };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
-    }
+  const handleCategoryChange = (e) => {
+    setJoke({ ...joke, category: e.target.value });
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getAllCategories(); // Await the API call
+        if (Array.isArray(categoriesData)) {
+          setCategories(categoriesData);
+        } else {
+          console.error("Expected an array of categories", categoriesData);
+        }
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
     };
+
+    fetchCategories();
   }, []);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <div className="dropdown" ref={dropdownRef}>
-        <Button
-          type="button"
-          onClick={toggleDropdown}
-          aria-haspopup="true"
-          aria-expanded={dropdownOpen}
+      <div className="form-group">
+        <label htmlFor="category">Category</label>
+        <select
+          id="category"
+          name="category"
+          value={joke.category}
+          onChange={handleCategoryChange}
+          required
         >
-          {joke.category}
-        </Button>
-        {dropdownOpen && (
-          <ul className="dropdownLinks activeDropdown">
-            {categories.map((cat, index) => (
-              <li key={index} onClick={() => handleCategorySelect(cat)}>
-                {cat}
-              </li>
-            ))}
-          </ul>
-        )}
+          <option value="Select a category" disabled>
+            Select a category
+          </option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat.value}>
+              {cat.value}
+            </option>
+          ))}
+        </select>
       </div>
+
       <Input
         required={true}
         label={"Joke"}

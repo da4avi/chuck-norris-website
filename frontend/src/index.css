@@ -13,28 +13,6 @@ a {
 li {
   list-style: none;
 }
-.loading-full-page-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80vh;
-}
-
-.loading-full-page {
-  animation: rotate 0.8s ease-in-out infinite;
-  object-fit: cover;
-  max-width: 40px;
-  max-height: 40px;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 .success-message {
   color: green;

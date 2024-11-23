@@ -6,6 +6,7 @@ import Input from "../General/Input";
 import Button from "../General/Button";
 import "./styles.css";
 import { AuthContext } from "../../auth/Context";
+import Loading from "../General/Loading";
 
 const UserProfile = () => {
   const { logout } = useContext(AuthContext);
@@ -68,17 +69,7 @@ const UserProfile = () => {
     setIsPasswordEditable(true);
   };
 
-  if (loading)
-    return (
-      <div className="loading-full-page-container">
-        <img
-          src="public/loading.webp"
-          className="loading-full-page"
-          width={40}
-          height={"auto"}
-        />
-      </div>
-    );
+  if (loading) return <Loading allPage={true} />;
 
   return (
     <div className="useProfileContainer">
@@ -110,7 +101,7 @@ const UserProfile = () => {
         />
         {!isPasswordEditable && (
           <Button type="button" onClick={enablePasswordEdit}>
-            Alterar senha
+            Change Password
           </Button>
         )}
         <Button type="submit">Save updates</Button>
