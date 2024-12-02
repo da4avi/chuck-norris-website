@@ -127,7 +127,7 @@ class UserController {
   }
 
   async deleteJokesByUserId(userId) {
-    await jokeModel.destroy({ where: { userId } });
+    await user.destroy({ where: { id: userId } });
   }
 
   async find() {
