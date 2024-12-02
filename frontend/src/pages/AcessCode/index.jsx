@@ -70,7 +70,6 @@ export default function AccessCode() {
       <h1>{t("Enter Access Code")}</h1>
       <div className="card">
         <Form onSubmit={handleSubmit}>
-          <label htmlFor="access-code">{t("Access Code")}</label>
           <Input
             placeholder={t("Enter your access code")}
             required
@@ -83,7 +82,7 @@ export default function AccessCode() {
               {loading ? t("Loading") : t("Verify Code")}
             </Button>
             <a
-              onClick={!isDisabled ? handleResendCode : undefined}
+              onClick={!isDisabled ? handleResendCode : null}
               className={isDisabled ? "disabled" : ""}
             >
               {isDisabled

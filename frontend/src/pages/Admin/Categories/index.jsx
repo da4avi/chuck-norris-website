@@ -7,12 +7,15 @@ import {
 } from "../../../api/category";
 import Input from "../../../components/General/Input";
 import Button from "../../../components/General/Button";
-import Form from "../../../components/General/Form";
+import Modal from "../../../components/General/Modal"; // Importando o Modal
+import "./styles.css";
+import Loading from "../../../components/General/Loading";
 
 export default function AdminCategories() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     value: "",
     description: "",
@@ -20,10 +23,12 @@ export default function AdminCategories() {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true);
       const data = await getAllCategories();
       setCategories(data);
     };
     fetchCategories();
+    setLoading(false);
   }, []);
 
   const handleDeleteCategory = async (id) => {
@@ -55,46 +60,68 @@ export default function AdminCategories() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  if (loading) return <Loading allPage={true} />;
+
   return (
     <div className="panel-container">
-      <h1>Admin - Categorias</h1>
-      <ul className="categories-list-container">
-        {categories.map((category) => (
-          <li className="category-actions-row" key={category.id}>
-            <strong>{category.value}</strong>
-            <p>{category.description}</p>
-            <div className="actions-buttons">
-              <Button onClick={() => handleEditCategory(category.id)}>
-                Editar
-              </Button>
-              <Button onClick={() => handleDeleteCategory(category.id)}>
-                Deletar
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      {isEditing && (
-        <Form classname="edit-form">
-          <h2>Editar Categoria</h2>
-          <Input
-            type="text"
-            name="value"
-            value={formData.value}
-            onChange={handleChange}
-            placeholder="Valor"
-          />
-          <Input
-            type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Descrição"
-          />
-          <Button onClick={handleUpdateCategory}>Atualizar</Button>
-          <Button onClick={() => setIsEditing(false)}>Cancelar</Button>
-        </Form>
-      )}
+      <h1>Admin - Categories</h1>
+
+      {/* Tabela de Categorias */}
+      <table className="categories-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category) => (
+            <tr key={category.id}>
+              <td>{category.value}</td>
+              <td>{category.description}</td>
+              <td className="actions-buttons-category">
+                <Button onClick={() => handleEditCategory(category.id)}>
+                  Edit
+                </Button>
+                <Button
+                  className="delete-category-button"
+                  onClick={() => handleDeleteCategory(category.id)}
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Modal para edição */}
+      <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
+        <h2>Edit Category</h2>
+        <Input
+          type="text"
+          name="value"
+          value={formData.value}
+          onChange={handleChange}
+          placeholder="Valor"
+        />
+        <Input
+          type="text"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Descrição"
+        />
+        <div className="edit-buttons-container">
+          <Button className="button-update" onClick={handleUpdateCategory}>
+            Update
+          </Button>
+          <Button className="button-cancel" onClick={() => setIsEditing(false)}>
+            Cancel
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

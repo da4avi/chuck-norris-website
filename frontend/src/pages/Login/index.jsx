@@ -29,7 +29,9 @@ export default function Login() {
 
       navigate("/access-code", { state: { email, password } });
     } catch (err) {
-      setErrorMessage(t("An error occurred. Please try again."));
+      if (err.message === "Request failed with status code 400") {
+        setErrorMessage(t("Invalid User or Password"));
+      }
     } finally {
       setLoading(false);
     }

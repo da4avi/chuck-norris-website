@@ -7,9 +7,10 @@
   font-weight: 500;
   color: white;
   background-color: #000000;
-  transition: color ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
 
   &:hover {
     color: #c6c6c6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }

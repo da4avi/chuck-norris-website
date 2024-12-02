@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { deleteJoke, getJokes } from "../../../api/joke";
 import "./styles.css";
 import UpdateJoke from "../update/UpdateJoke";
+import Loading from "../../General/Loading";
 
 export default function ListAllJokes() {
   const [jokes, setJokes] = useState([]);
@@ -49,7 +50,7 @@ export default function ListAllJokes() {
     fetchJokes();
   }, []);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   if (error) return <h1>{error}</h1>;
 
   return (

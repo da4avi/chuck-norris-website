@@ -1,4 +1,3 @@
-const { response } = require("express");
 const UserController = require("../controller/user");
 
 class UserApi {
@@ -9,9 +8,7 @@ class UserApi {
       const user = await UserController.create(name, email, password, role);
       return res.status(201).send(user);
     } catch (e) {
-      return res
-        .status(400)
-        .send({ error: `Error creating user: ${e.message}` });
+      return res.send({ error: e.message });
     }
   }
 
@@ -33,9 +30,7 @@ class UserApi {
       const user = await UserController.create(name, email, password, role);
       return res.status(201).send(user);
     } catch (e) {
-      return res
-        .status(400)
-        .send({ error: `Error creating user: ${e.message}` });
+      return res.status(400).send({ error: e.message });
     }
   }
 

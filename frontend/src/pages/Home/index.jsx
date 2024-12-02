@@ -22,6 +22,7 @@ export default function Home() {
       setJoke(data.value);
       setJokeTranslated(translated);
       setLoading(false);
+      setError(null);
     } catch (error) {
       setError("Error to get a joke", error.message);
     }
@@ -48,11 +49,21 @@ export default function Home() {
         {loading ? (
           <img className="img-loading" src={icon} height={40} width={40} />
         ) : (
-          <p className="p">{i18n.language === "en" ? joke : jokeTranslated}</p>
+          <p className="p p-joke">
+            {i18n.language === "en" ? joke : jokeTranslated}
+          </p>
         )}
-        {error && <p className="loading-message">Loading</p>}
+        {error && (
+          <p className="loading-message">
+            Error to get joke, await 50 seconds. And try again
+          </p>
+        )}
         <br />
-        <button onClick={getRandomJokes} type="button">
+        <button
+          className="get-joke-button"
+          onClick={getRandomJokes}
+          type="button"
+        >
           {t("newjoke")}
         </button>
         <br />

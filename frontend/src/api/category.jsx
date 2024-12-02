@@ -20,4 +20,3 @@ export const deleteCategory = async (id) => {
   const response = await api.delete(`/api/v1/category/${id}`);
   return response.data;
 };
-
